@@ -1,0 +1,16 @@
+<header>
+  <nav>
+    <p-toolbar>
+      <div class="p-toolbar-group-left">
+        <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-info p-button-text"></button>
+      </div>
+
+      <div class="p-toolbar-group-right">
+          <button pButton pRipple type="button" label="Home" class="p-button-text mr-3"></button>
+          <button routerLink="vehicule" pButton pRipple type="button" label="Vehicles" class="p-button-secondary p-button-text mr-3"></button>
+          <button routerLink="commande" pButton pRipple type="button" label="Orders" class="p-button-secondary p-button-text mr-3"></button>
+      </div>
+    </p-toolbar>
+  </nav>
+</header>
+<router-outlet></router-outlet>

@@ -1,0 +1,45 @@
+<form [formGroup]="orderForm" (ngSubmit)="addNewOrder()">
+
+  <p-gmap [style]="{height: '500px', marginBottom: '2rem'}" [options]="options" (onMapClick)="addLocation($event)" [overlays]="overlays"></p-gmap>
+
+  <div class="flex-column p-fluid">
+    <div class="p-field p-col-12 mb-5">
+      <span class="p-float-label">
+          <input type="text" formControlName="clientnumber" id="clientenumber" pInputText>
+          <label for="clientnumeber">Numéro du client</label>
+      </span>
+    </div>
+
+    <div class="p-col-12 grid mb-5">
+        <div class="p-field col">
+          <span class="p-float-label">
+              <p-calendar formControlName="timewindowstart" [readonlyInput]="true" [timeOnly]="true" inputId="timewindowstart"></p-calendar>
+              <label for="timewindowstart">Heure au plus tôt</label>
+          </span>
+        </div>
+        <div class="p-field col">
+          <span class="p-float-label">
+              <p-calendar formControlName="timewindowend" [readonlyInput]="true" [timeOnly]="true" inputId="timewindowend"></p-calendar>
+              <label for="timewindowend">Heure au plus tard</label>
+          </span>
+        </div>
+    </div>
+
+    <div class="p-field p-col-12 mb-5">
+      <span class="p-float-label">
+        <p-inputNumber mode="decimal" [showButtons]="true"  formControlName="productquantity" inputId="productquantity" [min]="0" [max]="50">
+        </p-inputNumber>
+        <label for="productquantity">Quantité Article</label>
+      </span>
+    </div>
+
+
+  </div>
+
+  <div class="flex justify-content-center">
+    <button pButton pRipple label="Save" [disabled]="orderForm.invalid" icon="pi pi-check" class="p-button-rounded mr-3 p-button-success"></button>
+  </div>
+
+</form>
+
+

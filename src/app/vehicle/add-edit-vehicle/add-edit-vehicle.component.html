@@ -1,0 +1,52 @@
+<form [formGroup]="vehicleForm" (ngSubmit)="addNewVehicle()">
+
+  <div class="flex-column p-fluid">
+    <div class="p-field p-col-12 mb-5">
+      <span class="p-float-label">
+          <input type="text" formControlName="matriculenumber" id="matriculenumber" pInputText>
+          <label for="matriculenumeber">Matricule du véhicule</label>
+      </span>
+  </div>
+
+  <div class="p-field p-col-12 mb-5">
+    <span class="p-float-label">
+        <input formControlName="brand" type="text" id="brand" pInputText>
+        <label for="brand">Marque</label>
+    </span>
+  </div>
+
+  <div class="p-field p-col-12 mb-5">
+      <span class="p-float-label">
+        <p-dropdown formControlName="status" inputId="vehicleStatus" [options]="statuses" [autoDisplayFirst]="false">
+          <ng-template let-option pTemplate="item">
+              <span [class]="'vehicle-badge status-' + option.value">{{option.label}}</span>
+          </ng-template>
+        </p-dropdown>
+        <label for="vehicleStatus">Statut du véhicule</label>
+      </span>
+  </div>
+
+  <div class="p-field p-col-12 mb-5">
+    <span class="p-float-label">
+        <input type="text" formControlName="imageurl" id="imageurl" pInputText>
+        <label for="imageurl">Photo du véhicule url</label>
+    </span>
+  </div>
+
+  <div class="p-field p-col-12 mb-5">
+    <span class="p-float-label">
+      <p-inputNumber mode="decimal" [showButtons]="true"  formControlName="capacity" inputId="capacity" [min]="0" [max]="1000">
+      </p-inputNumber>
+      <label for="capacity">Capacité du véhicule</label>
+    </span>
+  </div>
+
+  </div>
+
+  <div class="flex justify-content-center">
+    <button pButton pRipple label="Save" [disabled]="vehicleForm.invalid" icon="pi pi-check" class="p-button-rounded mr-3 p-button-success"></button>
+    <!-- <button (click)="closeDialog()" pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-rounded"></button> -->
+  </div>
+
+</form>
+

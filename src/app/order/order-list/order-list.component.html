@@ -1,0 +1,68 @@
+<main style="margin-top: 1rem;">
+  <div class="card">
+    <p-toolbar styleClass="mb-4">
+      <ng-template pTemplate="left">
+          <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addOrder()"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedOrder()" [disabled]="!selectedOrders || !selectedOrders.length"></button>
+      </ng-template>
+
+      <ng-template pTemplate="right">
+          <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 p-d-inline-block"></p-fileUpload>
+          <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+      </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="orders" [rows]="10" [paginator]="true" [globalFilterFields]="['clientnumber','timewindowstart','productquantity']" [(selection)]="selectedOrders" [rowHover]="true" dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      <ng-template pTemplate="caption">
+          <div class="flex align-items-center justify-content-between">
+              <h2 class="p-m-0">Manage Order</h2>
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" #search value="" (input)="dt.filterGlobal(search.value, 'contains')" placeholder="Search..." />
+              </span>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="name">Numéro du client<p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="timewindowstart">Heure au plus tôt<p-sortIcon field="timewindowstart"></p-sortIcon></th>
+              <th pSortableColumn="timewindowend">Heure au plus tard<p-sortIcon field="timewindows"></p-sortIcon></th>
+              <th pSortableColumn="productquantity">Quantité article<p-sortIcon field="productquantity"></p-sortIcon></th>
+              <th pSortableColumn="locationlatitude">Latitude<p-sortIcon field="locationlatitude"></p-sortIcon></th>
+              <th pSortableColumn="locationlongitude">Longitude<p-sortIcon field="locationlongitude"></p-sortIcon></th>
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+          <tr>
+              <td>
+                  <p-tableCheckbox [value]="order"></p-tableCheckbox>
+              </td>
+              <td>{{ order.clientnumber }}</td>
+              <td>{{ order.timewindowstart | date: 'shortTime' }}</td>
+              <td>{{ order.timewindowend | date: 'shortTime' }}</td>
+              <td>{{ order.productquantity }}</td>
+              <td>{{ order.locationlatitude }}</td>
+              <td>{{ order.locationlongitude }}</td>
+              <td>
+                  <button pButton pRipple icon="pi pi-pencil" (click)="editOrder(order)" class="p-button-rounded p-button-success mr-2"></button>
+                  <button pButton pRipple icon="pi pi-trash" (click)="deleteOrder(order)" class="p-button-rounded p-button-warning"></button>
+              </td>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+          <div class="flex align-items-center justify-content-between">
+              In total there are {{orders ? orders.length : 0 }}  products.
+          </div>
+      </ng-template>
+    </p-table>
+  </div>
+</main>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
