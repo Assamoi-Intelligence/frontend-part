@@ -1,0 +1,27 @@
+this.vehicles = [
+      {id: '1', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
+      {id: '2', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
+      {id: '3', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
+      {id: '4', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
+      {id: '5', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
+      {id: '6', matriculenumber: 'AZEézeoiçà', brand: 'SUZUKI', imageurl: this.img, capacity: 234, status: 'instock'}
+];
+
+this.orders = [
+      {id: '1', clientnumber: '+224', timewindowstart: Date.now() , timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '2', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '3', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '4', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '5', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '6', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '7', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '8', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '9', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '10', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
+      {id: '11', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 12},
+    ]
+
+providers: [MessageService]
+
+
+this.messageService.add({severity:'error', summary: 'Error', detail: 'Error when we added ' + error, life: 6000});

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Order } from 'src/app/models/order';
+import { OrderService } from '../order.service';
 declare var google: any;
 
 @Component({
@@ -15,7 +16,12 @@ export class AddEditOrderComponent implements OnInit {
 
   options: any;
 
-  constructor(private formBuilder: FormBuilder, public ref: DynamicDialogRef, public config: DynamicDialogConfig) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig,
+    private orderService: OrderService
+    ) { }
 
   overlays: any[] = [];
 
@@ -60,8 +66,24 @@ export class AddEditOrderComponent implements OnInit {
   }
 
   addNewOrder() {
-
-    console.log(this.orderForm.value);
+    if(this.config.data.isAdd) {
+      const data = {...this.orderForm.value};
+      this.orderService.addNewOrder(data).subscribe(data => {
+        console.log(data);
+        this.ref.close(true);
+      }, err => {
+        this.ref.close(err)
+      });
+    } else {
+      const data = {...this.orderForm.value} as Order;
+      const id = this.config.data.id;
+      this.orderService.updateOrder(data, id).subscribe(data => {
+        console.log(data);
+        this.ref.close(true);
+      }, err => {
+        this.ref.close(err)
+      });
+    }
   }
 
   closeDialog() {

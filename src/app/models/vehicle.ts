@@ -1,5 +1,5 @@
 export interface Vehicle {
-  id: string,
+  id: number,
   matriculenumber: string,
   brand: string,
   capacity: number,

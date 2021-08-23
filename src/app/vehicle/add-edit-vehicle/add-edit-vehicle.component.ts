@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Vehicle } from 'src/app/models/vehicle';
+import { VehicleService } from '../vehicle.service';
 
 @Component({
   selector: 'app-add-edit-vehicle',
@@ -10,7 +12,12 @@ import { Vehicle } from 'src/app/models/vehicle';
 })
 export class AddEditVehicleComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, public ref: DynamicDialogRef, public config: DynamicDialogConfig) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig,
+    private vehicleService: VehicleService,
+    ) { }
 
   visible = true;
   statuses: any =  [];
@@ -33,7 +40,7 @@ export class AddEditVehicleComponent implements OnInit {
       matriculenumber: [null, [Validators.required]],
       brand: [null, [Validators.required]],
       capacity: [null, [Validators.required]],
-      status: [null, [Validators.required]],
+      status: ['ras', [Validators.required]],
       imageurl: [null, [Validators.required]]
     });
   }
@@ -43,12 +50,33 @@ export class AddEditVehicleComponent implements OnInit {
   }
 
   addNewVehicle() {
-    console.log(this.vehicleForm.value);
+    if(this.config.data.isAdd) {
+      // for add
+      const data: Vehicle = {...this.vehicleForm.value};
+      this.vehicleService.addNewVehicle(data).subscribe(response => {
+        console.log(response);
+        this.ref.close(true);
+      }, (error: any) => {
+        console.log(error);
+        this.ref.close(error);
+      });
+    } else {
+      // for edit
+      const data: Vehicle = {...this.vehicleForm.value};
+      const id = this.config.data.vehicle.id;
+      console.log('edit', this.config.data.vehicle.id);
+      this.vehicleService.updateVehicle(data, id).subscribe(response => {
+        this.ref.close(true);
+      }, (error: any) => {
+        console.log(error);
+        this.ref.close(error);
+      })
+    }
   }
 
-  closeDialog() {
-    this.ref.close();
-  }
+  // closeDialog() {
+  //   this.ref.close();
+  // }
 
 
 

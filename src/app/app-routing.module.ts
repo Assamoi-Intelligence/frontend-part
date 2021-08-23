@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'vehicule',
+    redirectTo: 'planificateur',
     pathMatch: 'full'
   },
   {
@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'vehicule',
     loadChildren: () => import('./vehicle/vehicle-routing.module').then(mod => mod.VehicleRoutingModule)
+  },
+  {
+    path: 'planificateur',
+    loadChildren: () => import('./planner/planner-routing.module').then(mod => mod.PlannerRoutingModule)
   }
 ];
 

@@ -3,6 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Vehicle } from 'src/app/models/vehicle';
 import { AddEditVehicleComponent } from '../add-edit-vehicle/add-edit-vehicle.component';
+import { VehicleService } from '../vehicle.service';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -23,17 +24,23 @@ export class VehicleListComponent implements OnInit {
 
   img: string = 'https://firebasestorage.googleapis.com/v0/b/memoire-master-323219.appspot.com/o/toyota.jpg?alt=media&token=c90d4b38-8700-40a7-ba3c-de948a8022f6';
 
-  constructor(public dialogService: DialogService, private confirmationService: ConfirmationService) { }
+  constructor(
+    public dialogService: DialogService,
+    private confirmationService: ConfirmationService,
+    private vehicleService: VehicleService,
+    private messageService: MessageService
+    ) { }
 
   ngOnInit(): void {
-    this.vehicles = [
-      {id: '1', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
-      {id: '2', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
-      {id: '3', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
-      {id: '4', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
-      {id: '5', matriculenumber: 'AZEézeoiçà', brand: 'TOYOTA', imageurl: this.img, capacity: 234, status: 'instock'},
-      {id: '6', matriculenumber: 'AZEézeoiçà', brand: 'SUZUKI', imageurl: this.img, capacity: 234, status: 'instock'}
-    ]
+    this.getAllVehicles();
+  }
+
+  getAllVehicles() {
+    this.vehicleService.getAllVehicles().subscribe((data: Vehicle[]) => {
+      this.vehicles = data;
+    }, (error: any) => {
+      console.log(error);
+    });
   }
 
   addVehicle() {
@@ -46,8 +53,13 @@ export class VehicleListComponent implements OnInit {
       },
       contentStyle: {"padding-top": "2rem", "overflow": "auto"},
     });
-    this.ref.onClose.subscribe(data => {
-      console.log('Close');
+    this.ref.onClose.subscribe((data: string | boolean) => {
+      if(typeof data === "boolean" && data === true) {
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicle added with success', life: 3000});
+        this.getAllVehicles();
+      } else if(typeof data === "string") {
+        this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when added ${data}`, life: 7000});
+      }
     });
   }
 
@@ -62,8 +74,13 @@ export class VehicleListComponent implements OnInit {
       },
       contentStyle: {"padding-top": "2rem", "overflow": "auto"},
     });
-    this.ref.onClose.subscribe(data => {
-      console.log('Close');
+    this.ref.onClose.subscribe((data: string | boolean) => {
+      if(typeof data === "boolean" && data === true) {
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicle updated with success', life: 3000});
+        this.getAllVehicles();
+      } else if(typeof data === "string") {
+        this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when updated ${data}`, life: 7000});
+      }
     });
   }
 
@@ -73,8 +90,13 @@ export class VehicleListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        console.log('Delete successfull')
+        this.vehicleService.deleteVehicleById(vehicle.id).subscribe(response => {
+          console.log(response);
+          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicle deleted with success', life: 3000});
+          this.getAllVehicles();
+        },)
       },
+
     });
   }
 
@@ -84,7 +106,16 @@ export class VehicleListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+          const ids = this.selectedVehicles.map(e => e.id);
           console.log('Vehicles selected deleted')
+          this.vehicleService.deletedVehiculesSelected(ids).subscribe(res => {
+            console.log(res);
+            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicles selected deleted with success', life: 3000});
+            this.getAllVehicles();
+          }, err => {
+            this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when deleted`, life: 7000});
+            this.getAllVehicles();
+          })
       }
     });
   }

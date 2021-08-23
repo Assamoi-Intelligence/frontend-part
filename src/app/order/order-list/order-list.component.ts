@@ -3,6 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Order } from 'src/app/models/order';
 import { AddEditOrderComponent } from '../add-edit-order/add-edit-order.component';
+import { OrderService } from '../order.service';
 
 @Component({
   selector: 'app-order-list',
@@ -16,22 +17,23 @@ export class OrderListComponent implements OnInit {
   orders: Order[] = [];
   selectedOrders: Order[] = [];
 
-  constructor(private dialogService: DialogService,private confirmationService: ConfirmationService) { }
+  constructor(
+    private dialogService: DialogService,
+    private confirmationService: ConfirmationService,
+    private orderService: OrderService,
+    private messageService: MessageService
+    ) { }
 
   ngOnInit(): void {
-    this.orders = [
-      {id: '1', clientnumber: '+224', timewindowstart: Date.now() , timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '2', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '3', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '4', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '5', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '6', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '7', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '8', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '9', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '10', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 123},
-      {id: '11', clientnumber: '+22540919200', timewindowstart: Date.now(), timewindowend: Date.now(), locationlatitude: 12, locationlongitude: 23, productquantity: 12},
-    ]
+    this.getAllOrders();
+  }
+
+  getAllOrders() {
+    this.orderService.getAllOrder().subscribe((data: Order[]) => {
+      this.orders = data;
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   addOrder() {
@@ -46,7 +48,12 @@ export class OrderListComponent implements OnInit {
       contentStyle: {"padding-top": "2rem", "overflow": "auto"},
     });
     this.ref.onClose.subscribe(data => {
-      console.log('Close');
+      if(typeof data === "boolean" && data === true) {
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicle added with success', life: 3000});
+        this.getAllOrders();
+      } else if(typeof data === "string") {
+        this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when added ${data}`, life: 7000});
+      }
     });
   }
 
@@ -60,12 +67,18 @@ export class OrderListComponent implements OnInit {
       height: '90%',
       data: {
         isAdd: false,
-        order: order
+        order: order,
+        id: order.id
       },
       contentStyle: {"padding-top": "2rem", "overflow": "auto"},
     });
     this.ref.onClose.subscribe(data => {
-      console.log('Close');
+      if(typeof data === "boolean" && data === true) {
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicle added with success', life: 3000});
+        this.getAllOrders();
+      } else if(typeof data === "string") {
+        this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when added ${data}`, life: 7000});
+      }
     });
   }
 
@@ -76,6 +89,14 @@ export class OrderListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         console.log('Delete successfull')
+        this.orderService.delete(order.id).subscribe(res => {
+          console.log(res);
+          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Order deleted with success', life: 3000});
+          this.getAllOrders();
+        }, err => {
+          this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when deleted`, life: 7000});
+          this.getAllOrders();
+        })
       },
     });
   }
@@ -86,7 +107,15 @@ export class OrderListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-          console.log('Orders selected deleted')
+          const ids = this.selectedOrders.map(e => e.id);
+          this.orderService.deletedOrdersSelected(ids).subscribe(res => {
+            console.log(res);
+            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Orders selected deleted with success', life: 3000});
+            this.getAllOrders();
+          }, err => {
+            this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when deleted`, life: 7000});
+            this.getAllOrders();
+          })
       }
   });
   }

@@ -1,5 +1,5 @@
 export interface Order {
-  id: string;
+  id: number;
   clientnumber: string,
   locationlatitude: number,
   locationlongitude: number,

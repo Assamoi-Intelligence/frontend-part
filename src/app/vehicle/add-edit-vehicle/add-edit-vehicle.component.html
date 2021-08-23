@@ -1,3 +1,4 @@
+
 <form [formGroup]="vehicleForm" (ngSubmit)="addNewVehicle()">
 
   <div class="flex-column p-fluid">
@@ -15,27 +16,33 @@
     </span>
   </div>
 
-  <div class="p-field p-col-12 mb-5">
-      <span class="p-float-label">
-        <p-dropdown formControlName="status" inputId="vehicleStatus" [options]="statuses" [autoDisplayFirst]="false">
-          <ng-template let-option pTemplate="item">
-              <span [class]="'vehicle-badge status-' + option.value">{{option.label}}</span>
-          </ng-template>
-        </p-dropdown>
-        <label for="vehicleStatus">Statut du véhicule</label>
-      </span>
+
+  <div class="p-col-12 grid mb-5">
+    <div class="p-field col">
+      <span class="text-base">Statut : </span>
+    </div>
+    <div class="p-field-radiobutton col">
+      <p-radioButton name="status" value="hs" formControlName="status" inputId="hs"></p-radioButton>
+      <label for="hs">Hors service</label>
+    </div>
+
+    <div class="p-field-radiobutton col">
+      <p-radioButton name="status" value="ras" formControlName="status" inputId="ras"></p-radioButton>
+      <label for="ras"> Rien à signaler</label>
+    </div>
   </div>
+
 
   <div class="p-field p-col-12 mb-5">
     <span class="p-float-label">
         <input type="text" formControlName="imageurl" id="imageurl" pInputText>
-        <label for="imageurl">Photo du véhicule url</label>
+        <label for="imageurl"> Photo du véhicule url</label>
     </span>
   </div>
 
   <div class="p-field p-col-12 mb-5">
     <span class="p-float-label">
-      <p-inputNumber mode="decimal" [showButtons]="true"  formControlName="capacity" inputId="capacity" [min]="0" [max]="1000">
+      <p-inputNumber mode="decimal" [showButtons]="true"  formControlName="capacity" inputId="capacity" [min]="1" [max]="1000">
       </p-inputNumber>
       <label for="capacity">Capacité du véhicule</label>
     </span>
