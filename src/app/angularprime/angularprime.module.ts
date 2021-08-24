@@ -17,7 +17,8 @@ import {GMapModule} from 'primeng/gmap';
 import {CalendarModule} from 'primeng/calendar';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {FileUploadModule} from 'primeng/fileupload';
-
+import {CardModule} from 'primeng/card';
+import { ListboxModule} from 'primeng/listbox';
 
 
 @NgModule({
@@ -42,7 +43,9 @@ import {FileUploadModule} from 'primeng/fileupload';
     GMapModule,
     CalendarModule,
     ConfirmDialogModule,
-    FileUploadModule
+    FileUploadModule,
+    CardModule,
+    ListboxModule
   ]
 })
 export class AngularprimeModule { }

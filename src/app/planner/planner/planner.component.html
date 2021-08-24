@@ -1,3 +1,52 @@
+<p-toast></p-toast>
 <main style="margin-top: 1rem;">
-  <p>planner works!</p>
+  <div class="grid">
+
+    <div class="col-12 lg:col-9 md:col-9 sm:col-12">
+        <p-gmap [style]="{height: '700px', marginBottom: '2rem'}" [options]="options" [overlays]="overlays"></p-gmap>
+    </div>
+
+
+    <div class="col-12 lg:col-3 md:col-3 sm:col-12 flex-column">
+
+      <div class="mb-2 p-col-12">
+          <p-toolbar>
+            <div class="p-toolbar-group-left">
+              Orders quantityProduct sum:
+            </div>
+            <div class="p-toolbar-group-right">{{ allQuantities }}</div>
+          </p-toolbar>
+          <p-toolbar>
+            <div class="p-toolbar-group-left">
+              CapacityVehicle sum :
+            </div>
+            <div class="p-toolbar-group-right">{{ allCapacities }}</div>
+          </p-toolbar>
+      </div>
+
+      <div class="mb-2 p-col-12">
+        <p-listbox [options]="vehicles" (onChange)="computeCapacityAndQuantity()" emptyFilterMessage="Not found" [(ngModel)]="selectedVehicles" [metaKeySelection]="false" [checkbox]="true" [filter]="true" filterMatchMode="contains" [multiple]="true" optionLabel="matriculenumber" [listStyle]="{'max-height':'500px'}">
+          <ng-template let-vehicle pTemplate="item">
+              <div class="vehicle-item grid">
+                  <img [src]="vehicle.imageurl" class="col shadow-4 ml-3" width="70">
+                  <div class="col flex">
+                    <p class="align-items-center justify-content-center"><span class="font-bold uppercase">{{vehicle.brand}}-{{vehicle.matriculenumber}}</span> with capactity : <span class="font-bold">{{ vehicle.capacity }}</span> </p>
+                  </div>
+              </div>
+          </ng-template>
+        </p-listbox>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <div class="grid">
+    <div class="flex flex-row col-6 col-offset-5">
+      <div class="flex align-items-center justify-content-center">
+        <p-button  label="Start routing" (click)="startRouting()" [disabled]="!(allQuantities <= allCapacities)" icon="pi pi-check" styleClass="p-button-lg"></p-button>
+      </div>
+    </div>
+  </div>
 </main>

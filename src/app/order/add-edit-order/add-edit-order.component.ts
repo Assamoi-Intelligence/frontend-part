@@ -36,7 +36,7 @@ export class AddEditOrderComponent implements OnInit {
   initMap() {
     this.options = {
       center: {lat: 5.391369856212231, lng: -4.019645815219227},
-      zoom: 12
+      zoom: 15
     };
   }
 
