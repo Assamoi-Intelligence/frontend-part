@@ -51,6 +51,10 @@ export class AddEditOrderComponent implements OnInit {
     });
   }
 
+  getTimeWindowStart() {
+    return this.orderForm.get('timewindowstart')?.value;
+  }
+
   setForm(data: Order) {
     this.overlays.push(new google.maps.Marker({position: {lat: data.locationlatitude, lng: data.locationlongitude }}));
     this.orderForm.patchValue(data);

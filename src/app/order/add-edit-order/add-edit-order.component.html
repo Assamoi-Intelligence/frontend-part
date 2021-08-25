@@ -19,7 +19,7 @@
         </div>
         <div class="p-field col">
           <span class="p-float-label">
-              <p-calendar formControlName="timewindowend" [readonlyInput]="true" [timeOnly]="true" inputId="timewindowend"></p-calendar>
+              <p-calendar [minDate]="getTimeWindowStart()" formControlName="timewindowend" [readonlyInput]="true" [timeOnly]="true" inputId="timewindowend"></p-calendar>
               <label for="timewindowend">Heure au plus tard</label>
           </span>
         </div>

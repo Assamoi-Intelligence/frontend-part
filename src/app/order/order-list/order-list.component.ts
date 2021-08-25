@@ -33,6 +33,7 @@ export class OrderListComponent implements OnInit {
       this.orders = data;
     }, (err) => {
       console.log(err);
+      this.messageService.add({severity:'error', summary: 'Error', detail: `UNABLE TO GET ORDERS ${err}`, life: 11000});
     });
   }
 

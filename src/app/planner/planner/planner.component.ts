@@ -76,10 +76,7 @@ export class PlannerComponent implements OnInit {
   }
 
   computeCapacityAndQuantity() {
-    console.log(this.selectedVehicles);
     this.allCapacities = this.selectedVehicles.map(e => e.capacity).reduce((a,b) => a + b, 0);
-
-    console.log(this.allCapacities);
   }
 
   startRouting() {

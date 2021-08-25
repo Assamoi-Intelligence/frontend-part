@@ -44,7 +44,7 @@
 
   <div class="grid">
     <div class="flex flex-row col-6 col-offset-5">
-      <div class="flex align-items-center justify-content-center">
+      <div *ngIf="!(allCapacities===0 && allQuantities===0)" class="flex align-items-center justify-content-center">
         <p-button  label="Start routing" (click)="startRouting()" [disabled]="!(allQuantities <= allCapacities)" icon="pi pi-check" styleClass="p-button-lg"></p-button>
       </div>
     </div>

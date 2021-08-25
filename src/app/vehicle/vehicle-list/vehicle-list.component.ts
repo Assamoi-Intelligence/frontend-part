@@ -40,6 +40,7 @@ export class VehicleListComponent implements OnInit {
       this.vehicles = data;
     }, (error: any) => {
       console.log(error);
+      this.messageService.add({severity:'error', summary: 'Error', detail: `UNABLE TO GET VEHICLES ${error}`, life: 11000});
     });
   }
 
