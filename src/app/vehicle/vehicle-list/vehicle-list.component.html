@@ -8,7 +8,21 @@
         </ng-template>
 
         <ng-template pTemplate="right">
-            <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+          <p-fileUpload
+                name="file"
+                mode="basic"
+                accept=".xlsx, .xls, .csv"
+                (onUpload)="uploadFile($event)"
+                (onError)="uploadFileError($event)"
+                [multiple]="false"
+                [url]="urlUpload"
+                method="post"
+                [maxFileSize]="1000000"
+                label="Import"
+                chooseLabel="Import"
+                class="mr-2 p-d-inline-block">
+            </p-fileUpload>
+          <button (click)="exportDbToExcel()" pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
         </ng-template>
       </p-toolbar>
 

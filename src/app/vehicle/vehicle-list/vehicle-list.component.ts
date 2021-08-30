@@ -22,6 +22,8 @@ export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[] = [];
   selectedVehicles: Vehicle[] = [];
 
+  urlUpload = 'http://localhost:3000/vehicles/upload';
+
   img: string = 'https://firebasestorage.googleapis.com/v0/b/memoire-master-323219.appspot.com/o/toyota.jpg?alt=media&token=c90d4b38-8700-40a7-ba3c-de948a8022f6';
 
   constructor(
@@ -119,6 +121,35 @@ export class VehicleListComponent implements OnInit {
           })
       }
     });
+  }
+
+  uploadFile(event: any) {
+    this.getAllVehicles();
+    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: '', life: 5000});
+  }
+
+  uploadFileError(event: any) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: `Error file upload`, life: 7000});
+  }
+
+  exportDbToExcel() {
+    this.vehicleService.exportVehicles().subscribe((data: any) => {
+      this.downloadFile(data, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      this.messageService.add({severity:'info', summary: 'Export', detail: 'Exporting...', life: 3000});
+    }, (err) => {
+      console.log(err);
+      this.messageService.add({severity:'error', summary: 'Error', detail: `UNABLE TO EXPORT ${err}`, life: 11000});
+    });
+  }
+
+
+  downloadFile(data: Blob, type: any) {
+    const file: Blob = new Blob([data], {type: type});
+    let url = window.URL.createObjectURL(file);
+    let pwa = window.open(url);
+    if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+      alert( 'Please disable your Pop-up blocker and try again.');
+    }
   }
 
 }

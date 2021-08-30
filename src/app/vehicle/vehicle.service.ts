@@ -21,6 +21,10 @@ export class VehicleService {
     return this.httpClient.get<Vehicle[]>(`${this.baseUrl}/ras`).pipe(retry(3), catchError(this.handleError));
   }
 
+  exportVehicles() {
+    return this.httpClient.get(`${this.baseUrl}/download`, {responseType: 'blob'}).pipe(catchError(this.handleError));
+  }
+
   addNewVehicle(data: Vehicle): Observable<Vehicle> {
     return this.httpClient.post<Vehicle>(this.baseUrl, data).pipe(catchError(this.handleError));;
   }

@@ -17,6 +17,10 @@ export class OrderService {
     return this.httpClient.get<Order[]>(this.baseUrl).pipe(retry(3), catchError(this.handleError))
   }
 
+  exportOrders() {
+    return this.httpClient.get(`${this.baseUrl}/download`, {responseType: 'blob'}).pipe(catchError(this.handleError));
+  }
+
   addNewOrder(data: Order): Observable<Order> {
     return this.httpClient.post<Order>(this.baseUrl, data).pipe( catchError(this.handleError) );
   }

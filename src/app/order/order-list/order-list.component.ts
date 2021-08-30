@@ -17,6 +17,8 @@ export class OrderListComponent implements OnInit {
   orders: Order[] = [];
   selectedOrders: Order[] = [];
 
+  urlUpload = 'http://localhost:3000/orders/upload';
+
   constructor(
     private dialogService: DialogService,
     private confirmationService: ConfirmationService,
@@ -118,9 +120,36 @@ export class OrderListComponent implements OnInit {
             this.getAllOrders();
           })
       }
-  });
+    });
   }
 
+  uploadFile(event: any) {
+    this.getAllOrders();
+    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: '', life: 5000});
+  }
+
+  uploadFileError(event: any) {
+    this.messageService.add({severity:'error', summary: 'Error', detail: `Error file upload`, life: 7000});
+  }
+
+  exportDbToExcel() {
+    this.orderService.exportOrders().subscribe((data: any) => {
+      this.downloadFile(data, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+      this.messageService.add({severity:'info', summary: 'Export', detail: 'Exporting...', life: 3000});
+    }, (err) => {
+      console.log(err);
+      this.messageService.add({severity:'error', summary: 'Error', detail: `UNABLE TO EXPORT ${err}`, life: 11000});
+    });
+  }
+
+  downloadFile(data: Blob, type: any) {
+    const file: Blob = new Blob([data], {type: type});
+    let url = window.URL.createObjectURL(file);
+    let pwa = window.open(url);
+    if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+      alert( 'Please disable your Pop-up blocker and try again.');
+    }
+  }
 
 
 }
