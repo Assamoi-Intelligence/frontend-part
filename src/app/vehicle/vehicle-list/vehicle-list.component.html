@@ -22,7 +22,7 @@
                 chooseLabel="Import"
                 class="mr-2 p-d-inline-block">
             </p-fileUpload>
-          <button (click)="exportDbToExcel()" pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+          <button [disabled]="vehicles.length === 0" (click)="exportDbToExcel()" pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
         </ng-template>
       </p-toolbar>
 

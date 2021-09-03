@@ -16,6 +16,11 @@ export class AddEditOrderComponent implements OnInit {
 
   options: any;
 
+  depot = {
+    lat: 5.36964,
+    lng:  -3.97025
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     public ref: DynamicDialogRef,
@@ -34,10 +39,18 @@ export class AddEditOrderComponent implements OnInit {
   }
 
   initMap() {
-    this.options = {
-      center: {lat: 5.391369856212231, lng: -4.019645815219227},
-      zoom: 15
-    };
+    if(this.config.data.isAdd) {
+      this.options = {
+        center: this.depot,
+        zoom: 13
+      };
+    } else {
+      this.options = {
+        center: {lat: this.config.data.order.locationlatitude, lng: this.config.data.order.locationlongitude},
+        zoom: 13
+      };
+    }
+
   }
 
   initForm() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { GMap } from 'primeng/gmap';
 import { Order } from 'src/app/models/order';
 import { Vehicle } from 'src/app/models/vehicle';
 import { OrderService } from 'src/app/order/order.service';
@@ -23,6 +24,11 @@ export class PlannerComponent implements OnInit {
 
   allQuantities: number = 0;
   allCapacities: number = 0;
+
+  depot = {
+    lat: 5.36964,
+    lng:  -3.97025
+  };
 
   constructor(
     private orderService: OrderService,
@@ -62,7 +68,12 @@ export class PlannerComponent implements OnInit {
         this.overlays.push(new google.maps.Marker({position: {
           lat: element.locationlatitude,
           lng: element.locationlongitude,
-          title: `Client: ${element}, Demand: ${element.productquantity}`}
+          },
+          title: `Client: ${element.clientnumber}, Demand: ${element.productquantity}`,
+          label: {text: `${element.id}`, color: 'white'},
+          animation: google.maps.Animation.DROP,
+          optimized: true,
+          opacity: 0.9
         }));
       }
       this.allQuantities = this.orders.map(e =>e.productquantity).reduce((a, b) => a+b, 0);
@@ -70,9 +81,17 @@ export class PlannerComponent implements OnInit {
 
   initMap() {
     this.options = {
-      center: {lat: 5.391369856212231, lng: -4.019645815219227},
-      zoom: 15
+      center: this.depot,
+      zoom: 13
     };
+
+    this.overlays.push(new google.maps.Marker({position: {
+      lat: this.depot.lat,
+      lng: this.depot.lng,
+      },
+      animation: google.maps.Animation.BOUNCE,
+      optimized: true,
+    }));
   }
 
   computeCapacityAndQuantity() {

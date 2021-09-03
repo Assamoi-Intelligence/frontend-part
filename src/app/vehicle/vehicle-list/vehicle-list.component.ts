@@ -115,6 +115,7 @@ export class VehicleListComponent implements OnInit {
             console.log(res);
             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicles selected deleted with success', life: 3000});
             this.getAllVehicles();
+            this.selectedVehicles = [];
           }, err => {
             this.messageService.add({severity:'error', summary: 'Error', detail: `Error occured when deleted`, life: 7000});
             this.getAllVehicles();
