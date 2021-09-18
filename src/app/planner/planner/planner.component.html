@@ -28,9 +28,25 @@
         <p-listbox [options]="vehicles" (onChange)="computeCapacityAndQuantity()" emptyFilterMessage="Not found" [(ngModel)]="selectedVehicles" [metaKeySelection]="false" [checkbox]="true" [filter]="true" filterMatchMode="contains" [multiple]="true" optionLabel="matriculenumber" [listStyle]="{'max-height':'500px'}">
           <ng-template let-vehicle pTemplate="item">
               <div class="vehicle-item grid">
-                  <img [src]="vehicle.imageurl" class="col shadow-4 ml-3" width="30">
-                  <div class="col flex">
-                    <p class="align-items-center justify-content-center"><span class="font-bold uppercase">{{vehicle.brand}}-{{vehicle.matriculenumber}}</span> with capactity : <span class="font-bold">{{ vehicle.capacity }}</span> </p>
+                  <img [src]="vehicle.imageurl" class="col-4 shadow-4 ml-3" width="30">
+                  <div class="grid col-8">
+                    <div class="col-12 flex">
+                      <p class="align-items-center justify-content-center">
+                        <span class="font-bold uppercase">
+                          {{vehicle.brand}}-{{vehicle.matriculenumber}}
+                        </span>
+                        <br> with capactity : <span class="font-bold">{{ vehicle.capacity }}</span> </p>
+                    </div>
+                    <div class="col-12">
+                      <p-chips
+                        [(ngModel)]="ordersToVehicle[vehicle.id]"
+                        (onAdd)="addOrdersToVehicle($event, vehicle.id)"
+                        (onRemove)="removeOrdersToVehicle($event, vehicle.id)"
+                        type="number"
+                        [allowDuplicate]="false"
+                        [max]="6"
+                      ></p-chips>
+                    </div>
                   </div>
               </div>
           </ng-template>
@@ -44,6 +60,9 @@
 
   <div class="grid">
     <div class="flex flex-row col-6 col-offset-5">
+      <div class="mr-7">
+        <p-button label="Cluster" styleClass="p-button-lg p-button-warning" (click)="clustering()"></p-button>
+      </div>
       <div *ngIf="!(allCapacities===0 && allQuantities===0)" class="flex align-items-center justify-content-center">
         <p-button  label="Start routing" (click)="startRouting()" *ngIf="(allQuantities <= allCapacities)" icon="pi pi-check" styleClass="p-button-lg"></p-button>
       </div>

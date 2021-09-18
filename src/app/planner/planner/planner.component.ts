@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { GMap } from 'primeng/gmap';
 import { Order } from 'src/app/models/order';
 import { Vehicle } from 'src/app/models/vehicle';
-import { OrderService } from 'src/app/order/order.service';
-import { VehicleService } from 'src/app/vehicle/vehicle.service';
 import { PlannerService } from '../planner.service';
 declare var google: any;
+import { KMEANS } from 'density-clustering';
 
 @Component({
   selector: 'app-planner',
@@ -25,14 +23,14 @@ export class PlannerComponent implements OnInit {
   allQuantities: number = 0;
   allCapacities: number = 0;
 
+  ordersToVehicle: Number[][] = [];
+
   depot = {
     lat: 5.36964,
     lng:  -3.97025
   };
 
   constructor(
-    private orderService: OrderService,
-    private vehicleService: VehicleService,
     private messageService: MessageService,
     private plannerService: PlannerService
   ) { }
@@ -41,10 +39,13 @@ export class PlannerComponent implements OnInit {
     this.initMap();
     this.loadVehicles();
     this.loadOrders();
+    this.plannerService.getDispatchRouteToVehicle().subscribe(data => {
+      this.ordersToVehicle = data;
+    })
   }
 
   loadVehicles() {
-    this.vehicleService.getVehiclesRas().subscribe(data => {
+    this.plannerService.getVehiclesRas().subscribe(data => {
       this.vehicles = data;
     }, (err) => {
       console.log('Error', err);
@@ -53,7 +54,7 @@ export class PlannerComponent implements OnInit {
   }
 
   loadOrders() {
-    this.orderService.getAllOrder().subscribe(data => {
+    this.plannerService.getAllOrder().subscribe(data => {
       this.orders = data;
       this.loadOrderForMap(this.orders);
     }, (err) => {
@@ -79,6 +80,40 @@ export class PlannerComponent implements OnInit {
       this.allQuantities = this.orders.map(e =>e.productquantity).reduce((a, b) => a+b, 0);
   }
 
+
+  clustering() {
+    this.ordersToVehicle = [];
+    console.log(this.ordersToVehicle)
+    for (let i = 0; i < this.vehicles.length + 1; i++) {
+      this.ordersToVehicle.push([])
+    }
+    if(this.orders.length > 0) {
+      const points = this.orders.map(el => [el.locationlatitude, el.locationlongitude]);
+      const kmeans = new KMEANS();
+      let clusters = kmeans.run(points, 4);
+      let orders = clusters;
+      let k = 1;
+      for (let i = 0; i < orders.length; i++) {
+        for (let j = 0; j < orders[i].length; j++) {
+          orders[i][j] = orders[i][j] + 1;
+          if(this.ordersToVehicle[k].length < (this.orders.length / this.vehicles.length)) {
+            this.ordersToVehicle[k].push(orders[i][j]);
+          } else {
+            k = k + 1;
+            this.ordersToVehicle[k].push(orders[i][j]);
+          }
+        }
+      }
+
+      this.plannerService.dispatchRouteToVehicle(this.ordersToVehicle).subscribe(data => {
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Dispatch Routing Success', life: 3000});
+      }, (err) => {
+        this.messageService.add({severity:'error', summary: 'Error orders', detail: `${err}`, life: 10000});
+        this.ordersToVehicle = [];
+      });
+    }
+  }
+
   initMap() {
     this.options = {
       center: this.depot,
@@ -101,13 +136,37 @@ export class PlannerComponent implements OnInit {
   startRouting() {
     const data = {
       vehicles: this.selectedVehicles.map(e => e.id),
-      orders: this.orders.map(e => e.id)
+      orders: this.orders.map(e => e.id),
+      routes: this.ordersToVehicle
     }
     this.plannerService.startRoutingAPI(data).subscribe(response => {
       console.log(response);
     }, err => {
       this.messageService.add({severity:'error', summary: 'Error start routing', detail: `${err}`, life: 15000});
     });
+  }
+
+  addOrdersToVehicle(event: any, vehicleId: number) {
+      if(event.value == parseInt(event.value)) {
+        if( !((1 <= parseInt(event.value)) && (parseInt(event.value)<= this.orders.length)) ) {
+          this.ordersToVehicle[vehicleId].pop();
+          return;
+        }
+        this.plannerService.dispatchRouteToVehicle(this.ordersToVehicle).subscribe(data => {
+          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Dispatch Routing Success', life: 3000});
+        })
+      } else {
+        this.ordersToVehicle[vehicleId].pop();
+      }
+  }
+
+  removeOrdersToVehicle(event: any, vehicleId: number) {
+    console.log(this.ordersToVehicle[vehicleId].find(el => el == event.value))
+    this.plannerService.dispatchRouteToVehicle(this.ordersToVehicle).subscribe(data => {
+      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Dispatch Routing Success', life: 3000});
+    }, (err) => {
+      this.messageService.add({severity:'error', summary: 'Error orders', detail: `${err}`, life: 10000});
+    })
   }
 
 }

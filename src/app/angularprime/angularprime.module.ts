@@ -19,6 +19,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {FileUploadModule} from 'primeng/fileupload';
 import {CardModule} from 'primeng/card';
 import { ListboxModule} from 'primeng/listbox';
+import {ChipsModule} from 'primeng/chips';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ListboxModule} from 'primeng/listbox';
     ConfirmDialogModule,
     FileUploadModule,
     CardModule,
-    ListboxModule
+    ListboxModule,
+    ChipsModule
   ]
 })
 export class AngularprimeModule { }
