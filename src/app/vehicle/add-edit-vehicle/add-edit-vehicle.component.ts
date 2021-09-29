@@ -64,7 +64,6 @@ export class AddEditVehicleComponent implements OnInit {
       // for edit
       const data: Vehicle = {...this.vehicleForm.value};
       const id = this.config.data.vehicle.id;
-      console.log('edit', this.config.data.vehicle.id);
       this.vehicleService.updateVehicle(data, id).subscribe(response => {
         this.ref.close(true);
       }, (error: any) => {

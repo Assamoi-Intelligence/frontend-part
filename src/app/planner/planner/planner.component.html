@@ -2,7 +2,7 @@
 <main style="margin-top: 1rem;">
   <div class="grid">
 
-    <div class="col-12 lg:col-8 md:col-9 sm:col-12">
+    <div class="col-12 lg:col-8 md:col-9 sm:col-12 fadeinleft animation-duration-2000 animation-iteration-1 animation-ease-in">
         <p-gmap [style]="{height: '700px', marginBottom: '2rem'}" [options]="options" [overlays]="overlays"></p-gmap>
     </div>
 
@@ -60,9 +60,9 @@
 
   <div class="grid">
     <div class="flex flex-row col-6 col-offset-5">
-      <div class="mr-7">
+      <!-- <div class="mr-7">
         <p-button label="Cluster" styleClass="p-button-lg p-button-warning" (click)="clustering()"></p-button>
-      </div>
+      </div> -->
       <div *ngIf="!(allCapacities===0 && allQuantities===0)" class="flex align-items-center justify-content-center">
         <p-button  label="Start routing" (click)="startRouting()" *ngIf="(allQuantities <= allCapacities)" icon="pi pi-check" styleClass="p-button-lg"></p-button>
       </div>

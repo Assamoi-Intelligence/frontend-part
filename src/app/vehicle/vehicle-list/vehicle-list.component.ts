@@ -110,7 +110,6 @@ export class VehicleListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
           const ids = this.selectedVehicles.map(e => e.id);
-          console.log('Vehicles selected deleted')
           this.vehicleService.deletedVehiculesSelected(ids).subscribe(res => {
             console.log(res);
             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Vehicles selected deleted with success', life: 3000});

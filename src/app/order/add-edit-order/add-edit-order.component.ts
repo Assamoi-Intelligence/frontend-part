@@ -86,7 +86,6 @@ export class AddEditOrderComponent implements OnInit {
     if(this.config.data.isAdd) {
       const data = {...this.orderForm.value};
       this.orderService.addNewOrder(data).subscribe(data => {
-        console.log(data);
         this.ref.close(true);
       }, err => {
         this.ref.close(err)
@@ -95,7 +94,6 @@ export class AddEditOrderComponent implements OnInit {
       const data = {...this.orderForm.value} as Order;
       const id = this.config.data.id;
       this.orderService.updateOrder(data, id).subscribe(data => {
-        console.log(data);
         this.ref.close(true);
       }, err => {
         this.ref.close(err)

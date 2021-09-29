@@ -83,7 +83,6 @@ export class PlannerComponent implements OnInit {
 
   clustering() {
     this.ordersToVehicle = [];
-    console.log(this.ordersToVehicle)
     for (let i = 0; i < this.vehicles.length + 1; i++) {
       this.ordersToVehicle.push([])
     }
@@ -127,6 +126,13 @@ export class PlannerComponent implements OnInit {
       animation: google.maps.Animation.BOUNCE,
       optimized: true,
     }));
+
+    this.overlays.push(google.maps.DirectionServive().route({
+      origin : new google.maps.LatLng(this.depot.lng, this.depot.lng),
+      destination: new google.maps.LatLng(5.34006, -3.92053),
+      travelMode: google.maps.TravelMode.DRIVING
+    }));
+
   }
 
   computeCapacityAndQuantity() {
@@ -136,7 +142,6 @@ export class PlannerComponent implements OnInit {
   startRouting() {
     const data = {
       vehicles: this.selectedVehicles.map(e => e.id),
-      orders: this.orders.map(e => e.id),
       routes: this.ordersToVehicle
     }
     this.plannerService.startRoutingAPI(data).subscribe(response => {
@@ -161,7 +166,6 @@ export class PlannerComponent implements OnInit {
   }
 
   removeOrdersToVehicle(event: any, vehicleId: number) {
-    console.log(this.ordersToVehicle[vehicleId].find(el => el == event.value))
     this.plannerService.dispatchRouteToVehicle(this.ordersToVehicle).subscribe(data => {
       this.messageService.add({severity:'success', summary: 'Successful', detail: 'Dispatch Routing Success', life: 3000});
     }, (err) => {

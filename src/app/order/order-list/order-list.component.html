@@ -3,11 +3,13 @@
     <div class="card">
         <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
+
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="addOrder()"></button>
             <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedOrder()" [disabled]="!selectedOrders || !selectedOrders.length"></button>
         </ng-template>
 
         <ng-template pTemplate="right">
+            <button pButton pRipple label="Generate Orders" icon="pi pi-replay" class="p-button-info mr-2" (click)="displayGeneratorOrderDialog = true"></button>
             <p-fileUpload
                     mode="basic"
                     accept=".xlsx, .xls, .csv"
@@ -80,5 +82,62 @@
 </main>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- DIALOG FOR GENERATION OF ORDERS -->
+
+<p-dialog [(visible)]="displayGeneratorOrderDialog" header="Generator options" styleClass="p-fluid" [position]="'top'" [modal]="true">
+  <ng-template pTemplate="content">
+    <div class="flex flex-row mt-1" style="height: 11rem;">
+
+      <div class="p-field mb-5 mr-3">
+        <span class="p-float-label">
+          <p-inputNumber mode="decimal" [(ngModel)]="numberOfOrdersGen" name="ordersnumber" [showButtons]="true" inputId="ordersnumber" [min]="1" [max]="150">
+          </p-inputNumber>
+          <label for="ordersnumber">Commandes max</label>
+        </span>
+      </div>
+
+      <div class="p-field mb-5 mr-3">
+        <span class="p-float-label">
+            <p-calendar [readonlyInput]="true" [(ngModel)]="timeMinGen" name="timeMin" [timeOnly]="true" inputId="timeMin"></p-calendar>
+            <label for="timeMin">Heure Min</label>
+        </span>
+      </div>
+
+      <div class="p-field mb-5 mr-3">
+        <span class="p-float-label">
+            <p-calendar [readonlyInput]="true" [defaultDate]="timeMinGen" [minDate]="timeMinGen" [(ngModel)]="timeMaxGen" name="timeMax" [timeOnly]="true" inputId="timeMax"></p-calendar>
+            <label for="timeMax">Heure Max</label>
+        </span>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="generateOrders()" label="Generate" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
 
 

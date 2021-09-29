@@ -8,10 +8,12 @@ import { AppComponent } from './app.component';
 import { OrderModule } from './order/order.module';
 import { PlannerModule } from './planner/planner.module';
 import { VehicleModule } from './vehicle/vehicle.module';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

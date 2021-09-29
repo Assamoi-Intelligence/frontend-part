@@ -5,7 +5,7 @@ import { OrderRoutingModule } from './order-routing.module';
 import { OrderListComponent } from './order-list/order-list.component';
 import { AngularprimeModule } from '../angularprime/angularprime.module';
 import { AddEditOrderComponent } from './add-edit-order/add-edit-order.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     OrderRoutingModule,
     AngularprimeModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
   ],

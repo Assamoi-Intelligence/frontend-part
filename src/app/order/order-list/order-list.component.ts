@@ -17,6 +17,14 @@ export class OrderListComponent implements OnInit {
   orders: Order[] = [];
   selectedOrders: Order[] = [];
 
+  // GENERATOR ORDERS VARIABLES
+  displayGeneratorOrderDialog = false;
+  numberOfOrdersGen!: number;
+  timeMinGen!: Date;
+  timeMaxGen!: Date;
+
+
+
   urlUpload = 'http://localhost:3000/orders/upload';
 
   constructor(
@@ -91,7 +99,6 @@ export class OrderListComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        console.log('Delete successfull')
         this.orderService.delete(order.id).subscribe(res => {
           console.log(res);
           this.messageService.add({severity:'success', summary: 'Successful', detail: 'Order deleted with success', life: 3000});
@@ -150,6 +157,32 @@ export class OrderListComponent implements OnInit {
     if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
       alert( 'Please disable your Pop-up blocker and try again.');
     }
+  }
+
+
+  generateOrders() {
+    if(typeof this.numberOfOrdersGen === 'undefined') this.numberOfOrdersGen = 20
+    if(typeof this.timeMinGen === 'undefined') this.timeMinGen = new Date(new Date().setHours(10, 0, 0));
+    if(typeof this.timeMaxGen === 'undefined') this.timeMaxGen = new Date(new Date().setHours(15, 30, 0));
+    console.log(this.numberOfOrdersGen, this.timeMinGen,this.timeMaxGen);
+    let orders: Order[] = [];
+
+
+
+    for(let i = 0; i < this.numberOfOrdersGen; i++) {
+
+      let order: Order = {id: i+1,clientnumber: '', locationlatitude: 2, locationlongitude: 2, timewindowstart: 23, timewindowend: 23, productquantity: 23}
+    }
+
+    this.displayGeneratorOrderDialog = false;
+  }
+
+  generatePhoneNumber() {
+
+  }
+
+  generateLatLong() {
+
   }
 
 
