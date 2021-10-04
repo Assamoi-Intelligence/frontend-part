@@ -1,0 +1,37 @@
+    // for(let i = 0; i < routes.length; i++) {
+    //   let directionsService = new google.maps.DirectionsService();
+    //   let directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+    //   const request =  {
+    //     destination: {lat: this.depot.lat, lng: this.depot.lng},
+    //     origin: {lat: 5.38403, lng:	-3.94681},
+    //     travelMode: google.maps.DirectionsTravelMode.DRIVING
+    //   }
+    //   // directionsService.route(request, (res: any, status: any) => {
+    //   //   if(status == 'OK') {
+    //   //     console.log(res);
+    //   //     directionsDisplay.setOptions({
+    //   //       polylineOptions: {
+    //   //         strokeColor: 'red'
+    //   //       }
+    //   //     });
+    //   //     directionsDisplay.setDirections(res);
+    //   //     this.overlays.push(directionsDisplay);
+    //   //   } else {
+    //   //     if (status == 'ZERO_RESULTS') {
+    //   // 			alert('No route could be found between the origin and destination.');
+    //   // 		} else if (status == 'UNKNOWN_ERROR') {
+    //   // 			alert('A directions request could not be processed due to a server error. The request may succeed if you try again.');
+    //   // 		} else if (status == 'REQUEST_DENIED') {
+    //   // 			alert('This webpage is not allowed to use the directions service.');
+    //   // 		} else if (status == 'OVER_QUERY_LIMIT') {
+    //   // 			alert('The webpage has gone over the requests limit in too short a period of time.');
+    //   // 		} else if (status == 'NOT_FOUND') {
+    //   // 			alert('At least one of the origin, destination, or waypoints could not be geocoded.');
+    //   // 		} else if (status == 'INVALID_REQUEST') {
+    //   // 			alert('The DirectionsRequest provided was invalid.');
+    //   // 		} else {
+    //   // 			alert("There was an unknown error in your request. Requeststatus: \n\n"+status);
+    //   // 		}
+    //   //   }
+    //   // })
+    // }

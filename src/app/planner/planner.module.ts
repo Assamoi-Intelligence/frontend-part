@@ -8,11 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { PlannerDetailComponent } from './planner-detail/planner-detail.component';
 
 
 @NgModule({
   declarations: [
-    PlannerComponent
+    PlannerComponent,
+    PlannerDetailComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     HttpClientModule
+  ],
+  entryComponents: [
+    PlannerDetailComponent
   ]
 })
 export class PlannerModule { }

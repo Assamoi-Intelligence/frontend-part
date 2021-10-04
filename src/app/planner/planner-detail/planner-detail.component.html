@@ -1,0 +1,28 @@
+<main>
+  <div class="grid">
+
+    <div class="col-12 lg:col-8 md:col-8 sm:col-12">
+      <p-gmap (onMapReady)="getMap($event)" [style]="{height: '550px', marginBottom: '2rem'}" [draggable]="true" [options]="options" [overlays]="overlays"></p-gmap>
+    </div>
+
+    <div class="col-12 lg:col-4 md:col-4 sm:col-12">
+        <p-card>
+          <h5>Opposite Content</h5>
+          <p-timeline [value]="[
+          {status: 'Ordered', date: '15/10/2020 10:30', color: '#9C27B0', image: 'game-controller.jpg'},
+          {status: 'Processing', date: '15/10/2020 14:00', color: '#673AB7'},
+          {status: 'Shipped', date: '15/10/2020 16:15', color: '#FF9800'},
+          {status: 'Delivered', date: '16/10/2020 10:00', color: '#607D8B'}
+      ]">
+              <ng-template pTemplate="content" let-event>
+                  <small class="p-text-secondary">{{event.date}}</small>
+              </ng-template>
+              <ng-template pTemplate="opposite" let-event>
+                  {{event.status}}
+              </ng-template>
+          </p-timeline>
+        </p-card>
+    </div>
+
+  </div>
+</main>

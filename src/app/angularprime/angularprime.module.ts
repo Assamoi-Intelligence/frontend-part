@@ -20,6 +20,9 @@ import {FileUploadModule} from 'primeng/fileupload';
 import {CardModule} from 'primeng/card';
 import { ListboxModule} from 'primeng/listbox';
 import {ChipsModule} from 'primeng/chips';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {CarouselModule} from 'primeng/carousel';
+import {TimelineModule} from 'primeng/timeline';
 
 
 @NgModule({
@@ -47,7 +50,10 @@ import {ChipsModule} from 'primeng/chips';
     FileUploadModule,
     CardModule,
     ListboxModule,
-    ChipsModule
+    ChipsModule,
+    ProgressSpinnerModule,
+    CarouselModule,
+    TimelineModule
   ]
 })
 export class AngularprimeModule { }
