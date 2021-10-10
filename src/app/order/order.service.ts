@@ -9,7 +9,7 @@ import { Order } from '../models/order';
 })
 export class OrderService {
 
-  baseUrl = 'http://localhost:3000/orders'
+  baseUrl = 'https://fleet-management-backend.herokuapp.com/orders';
 
   constructor(private httpClient: HttpClient) { }
 

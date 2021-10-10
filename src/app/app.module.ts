@@ -10,6 +10,10 @@ import { PlannerModule } from './planner/planner.module';
 import { VehicleModule } from './vehicle/vehicle.module';
 import { NotfoundComponent } from './notfound/notfound.component';
 
+
+import {provideFirebaseApp, initializeApp} from '@angular/fire/app';
+import { environment } from 'src/environments/environment.prod';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +26,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     VehicleModule,
     PlannerModule,
     AngularprimeModule,
-    HttpClientModule
+    HttpClientModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig))
   ],
   providers: [],
   bootstrap: [AppComponent]

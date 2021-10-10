@@ -121,11 +121,11 @@ export class PlannerDetailComponent implements OnInit {
     let route = this.config.data.optimizedRoute;
     let orders = this.config.data.orders as Order[];
     let distanceMatrixService = new google.maps.DistanceMatrixService();
-    let start = {lat: this.depot.lat, lng: this.depot.lng};
-    let end = {lat: orders.find(el => el.id == route[0])?.locationlatitude, lng: orders.find(el => el.id == route[0])?.locationlongitude}
+    let start = [this.depot.lat, this.depot.lng];
+    let end =[orders.find(el => el.id == route[0])?.locationlatitude, orders.find(el => el.id == route[0])?.locationlongitude]
     let request = {
-      origin: [start],
-      destination: [end],
+      origin: start,
+      destination: end,
       travelMode: 'DRIVING'
     }
     distanceMatrixService.getDistanceMatrix(request, (result: any, status: any) => {

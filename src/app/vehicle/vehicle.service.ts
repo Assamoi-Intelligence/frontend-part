@@ -9,7 +9,7 @@ import { retry, catchError } from 'rxjs/operators';
 })
 export class VehicleService {
 
-  baseUrl = 'http://localhost:3000/vehicles';
+  baseUrl = 'https://fleet-management-backend.herokuapp.com/vehicles';
 
   constructor(private httpClient: HttpClient) { }
 

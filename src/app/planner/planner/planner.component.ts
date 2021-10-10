@@ -28,6 +28,7 @@ export class PlannerComponent implements OnInit {
   optimizedRoutes: number[][] = [];
   isOptimized: boolean = false;
   ref!: DynamicDialogRef | undefined;
+  isOptimizing: boolean = false;
 
   map!: any;
   depot = {
@@ -142,20 +143,67 @@ export class PlannerComponent implements OnInit {
     this.allCapacities = this.selectedVehicles.map(e => e.capacity).reduce((a,b) => a + b, 0);
   }
 
+
+  // ROUTING ALGORITHM
   startRouting() {
     const data = {
       vehicles: this./*selectedVehicles*/vehicles.map(e => e.id),
       routes: this.ordersToVehicle
     }
-    this.plannerService.startRoutingAPI(data).subscribe((response) => {
+    this.isOptimizing = true;
+    this.plannerService.startRoutingTaboo(data).subscribe((response) => {
       //console.log(response);
       this.optimizedRoutes = response.slice();
       let res = response.unshift([]);
       this.ordersToVehicle = response.slice();
       this.isOptimized = true;
+      this.isOptimizing = false;
       //this.traceAllRoutes(this.ordersToVehicle);
       this.messageService.add({severity:'success', summary: 'Successful', detail: 'ROUTING SUCCESS', life: 13000});
     }, err => {
+      this.isOptimizing = false;
+      this.messageService.add({severity:'error', summary: 'Error start routing', detail: `${err}`, life: 15000});
+    });
+  }
+
+  startRoutingCrossMove() {
+    const data = {
+      vehicles: this./*selectedVehicles*/vehicles.map(e => e.id),
+      routes: this.ordersToVehicle
+    }
+    this.isOptimizing = true;
+    this.plannerService.startRoutingTabooCrossMove(data).subscribe((response) => {
+      this.optimizedRoutes = response.slice();
+      let res = response.unshift([]);
+      this.ordersToVehicle = response.slice();
+      this.isOptimized = true;
+      this.isOptimizing = false;
+      this.messageService.add({severity:'success', summary: 'Successful', detail: 'ROUTING SUCCESS', life: 13000});
+    }, err => {
+      this.isOptimizing = false;
+      this.messageService.add({severity:'error', summary: 'Error start routing', detail: `${err}`, life: 15000});
+    });
+  }
+
+
+
+  startRoutingGreedy() {
+    const data = {
+      vehicles: this./*selectedVehicles*/vehicles.map(e => e.id),
+      orders: this.orders.map(e => e.id)
+    }
+    this.isOptimizing = true;
+    this.plannerService.startRoutingGreedyAlgorithm(data).subscribe((response) => {
+      console.log(response);
+      this.optimizedRoutes = response.slice();
+      let res = response.unshift([]);
+      this.ordersToVehicle = response.slice();
+      this.isOptimized = true;
+      this.isOptimizing = false;
+      //this.traceAllRoutes(this.ordersToVehicle);
+      this.messageService.add({severity:'success', summary: 'Successful', detail: 'ROUTING SUCCESS', life: 13000});
+    }, err => {
+      this.isOptimizing = false;
       this.messageService.add({severity:'error', summary: 'Error start routing', detail: `${err}`, life: 15000});
     });
   }

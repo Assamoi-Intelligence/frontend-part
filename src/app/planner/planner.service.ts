@@ -10,14 +10,22 @@ import { Vehicle } from '../models/vehicle';
 })
 export class PlannerService {
 
-  baseUrl = 'http://localhost:3000/planner'
+  baseUrl = 'https://fleet-management-backend.herokuapp.com/planner';
 
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  startRoutingAPI(data: any): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl,data).pipe( catchError(this.handleError) );
+  startRoutingTaboo(data: any): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + '/taboo',data).pipe( catchError(this.handleError) );
+  }
+
+  startRoutingTabooCrossMove(data: any): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + '/taboo_cross_move',data).pipe( catchError(this.handleError) );
+  }
+
+  startRoutingGreedyAlgorithm(data: any): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + '/greedy',data).pipe( catchError(this.handleError) );
   }
 
   getAllOrder(): Observable<Order[]> {

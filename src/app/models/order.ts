@@ -5,5 +5,6 @@ export interface Order {
   locationlongitude: number,
   timewindowstart: string | Date | number,
   timewindowend: string | Date | number,
-  productquantity: number
+  productquantity: number,
+  VehicleId?: number
 }

@@ -25,7 +25,7 @@ export class OrderListComponent implements OnInit {
 
 
 
-  urlUpload = 'http://localhost:3000/orders/upload';
+  urlUpload = 'https://fleet-management-backend.herokuapp.com/orders/upload';
 
   constructor(
     private dialogService: DialogService,

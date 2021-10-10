@@ -22,7 +22,7 @@ export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[] = [];
   selectedVehicles: Vehicle[] = [];
 
-  urlUpload = 'http://localhost:3000/vehicles/upload';
+  urlUpload = 'https://fleet-management-backend.herokuapp.com/vehicles/upload';
 
   img: string = 'https://firebasestorage.googleapis.com/v0/b/memoire-master-323219.appspot.com/o/toyota.jpg?alt=media&token=c90d4b38-8700-40a7-ba3c-de948a8022f6';
 
