@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Order } from 'src/app/models/order';
 import { Vehicle } from 'src/app/models/vehicle';
@@ -14,7 +14,7 @@ import { PlannerDetailComponent } from '../planner-detail/planner-detail.compone
   styleUrls: ['./planner.component.scss'],
   providers: [MessageService, DialogService]
 })
-export class PlannerComponent implements OnInit {
+export class PlannerComponent implements OnInit, OnDestroy {
   options: any;
   overlays: any[] = [];
   vehicles: Vehicle[] = [];
@@ -29,12 +29,15 @@ export class PlannerComponent implements OnInit {
   isOptimized: boolean = false;
   ref!: DynamicDialogRef | undefined;
   isOptimizing: boolean = false;
+  isClustering = false;
 
   map!: any;
   depot = {
     lat: 5.36964,
     lng:  -3.97025
   };
+
+  isLoading = true;
 
   constructor(
     private dialogService: DialogService,
@@ -48,12 +51,14 @@ export class PlannerComponent implements OnInit {
     this.loadOrders();
     this.plannerService.getDispatchRouteToVehicle().subscribe(data => {
       this.ordersToVehicle = data;
-    })
+      if(this.ordersToVehicle[1].length > 0) this.isClustering = true;
+    });
   }
 
   loadVehicles() {
     this.plannerService.getVehiclesRas().subscribe(data => {
       this.vehicles = data;
+      this.isLoading = false;
       this.allCapacities = this.vehicles.map(e => e.capacity).reduce((a,b) => a + b, 0);
     }, (err) => {
       console.log('Error', err);
@@ -113,6 +118,7 @@ export class PlannerComponent implements OnInit {
       }
 
       this.plannerService.dispatchRouteToVehicle(this.ordersToVehicle).subscribe(data => {
+        this.isClustering = true;
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Dispatch Routing Success', life: 3000});
       }, (err) => {
         this.messageService.add({severity:'error', summary: 'Error orders', detail: `${err}`, life: 10000});
@@ -146,6 +152,7 @@ export class PlannerComponent implements OnInit {
 
   // ROUTING ALGORITHM
   startRouting() {
+    if(this.ordersToVehicle.length === 0) return;
     const data = {
       vehicles: this./*selectedVehicles*/vehicles.map(e => e.id),
       routes: this.ordersToVehicle
@@ -316,6 +323,9 @@ export class PlannerComponent implements OnInit {
         color
       }
     })
+  }
+
+  ngOnDestroy() {
   }
 
 }

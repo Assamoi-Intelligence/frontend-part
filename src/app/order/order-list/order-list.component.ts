@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Order } from 'src/app/models/order';
+import { urlUploadOrder } from 'src/app/url';
 import { AddEditOrderComponent } from '../add-edit-order/add-edit-order.component';
 import { OrderService } from '../order.service';
+
 
 @Component({
   selector: 'app-order-list',
@@ -22,10 +24,10 @@ export class OrderListComponent implements OnInit {
   numberOfOrdersGen!: number;
   timeMinGen!: Date;
   timeMaxGen!: Date;
+  isLoading = true;
 
 
-
-  urlUpload = 'https://fleet-management-backend.herokuapp.com/orders/upload';
+  urlUpload = urlUploadOrder;
 
   constructor(
     private dialogService: DialogService,
@@ -41,6 +43,7 @@ export class OrderListComponent implements OnInit {
   getAllOrders() {
     this.orderService.getAllOrder().subscribe((data: Order[]) => {
       this.orders = data;
+      this.isLoading = false;
     }, (err) => {
       console.log(err);
       this.messageService.add({severity:'error', summary: 'Error', detail: `UNABLE TO GET ORDERS ${err}`, life: 11000});

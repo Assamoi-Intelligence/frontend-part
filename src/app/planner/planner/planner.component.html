@@ -2,32 +2,19 @@
 <main style="margin-top: 1rem;">
   <div class="grid">
 
-    <div class="col-12 lg:col-8 md:col-9 sm:col-12 fadeinleft animation-duration-2000 animation-iteration-1 animation-ease-in">
+    <div class="col-12 lg:col-8 md:col-9 sm:col-12 fadein animation-duration-2000 animation-iteration-1 animation-ease-in">
         <p-gmap (onMapReady)="getMap($event)" [style]="{height: '100vh'}" [options]="options" [overlays]="overlays"></p-gmap>
     </div>
 
 
     <div class="col-12 lg:col-4 md:col-3 sm:col-12 flex-column">
 
-      <!-- <div class="mb-2 p-col-12">
-          <p-toolbar>
-            <div class="p-toolbar-group-left">
-              Orders quantityProduct sum:
-            </div>
-            <div class="p-toolbar-group-right">{{ allQuantities }}</div>
-          </p-toolbar>
-          <p-toolbar>
-            <div class="p-toolbar-group-left">
-              CapacityVehicle sum :
-            </div>
-            <div class="p-toolbar-group-right">{{ allCapacities }}</div>
-          </p-toolbar>
-      </div> -->
-
-      <div class="mb-2 p-col-12">
+      <div *ngIf="!isLoading" class="mb-2 p-col-12">
         <p-carousel [value]="vehicles" [numVisible]="1" [numScroll]="1" [circular]="true">
           <ng-template pTemplate="header">
-              <h2>VEHICLES</h2>
+              <div class="flex justify-content-center text-indigo-600">
+                <h2>VEHICLES</h2>
+              </div>
           </ng-template>
           <ng-template let-vehicle pTemplate="item">
               <div class="vehicle-item">
@@ -51,8 +38,8 @@
                             ></p-chips>
                         </div>
                           <div class="car-buttons mt-5">
-                              <p-button type="button" *ngIf="isOptimized" (click)="openModalRoute(vehicle)" styleClass="p-button p-button-rounded mr-2" icon="pi pi-search"></p-button>
-                              <p-button type="button" *ngIf="isOptimized" (click)="traceRouteForVehicle(vehicle)" styleClass="p-button-success p-button-rounded mr-2" icon="pi pi-star"></p-button>
+                              <p-button type="button" *ngIf="isOptimized" (click)="openModalRoute(vehicle)" styleClass="p-button p-button-rounded mr-2" icon="pi pi-eye"></p-button>
+                              <p-button type="button" *ngIf="isOptimized" (click)="traceRouteForVehicle(vehicle)" styleClass="p-button-info p-button-rounded mr-2" icon="pi pi-chart-line"></p-button>
                           </div>
                       </div>
                   </div>
@@ -61,20 +48,38 @@
         </p-carousel>
       </div>
 
+
+      <div *ngIf="isLoading">
+          <div class="mb-2 p-col-12">
+            <p-skeleton width="fill-content" height="10vh" borderRadius="10px" styleClass="p-mb-2"></p-skeleton>
+          </div>
+          <div class="mb-2 p-col-12">
+            <div class="grid">
+              <div class="col-2"><p-skeleton width="fill-content" height="62vh" borderRadius="10px" styleClass="p-mb-2"></p-skeleton></div>
+              <div class="col-8"><p-skeleton width="fill-content" height="62vh" borderRadius="10px" styleClass="p-mb-2"></p-skeleton></div>
+              <div class="col-2"><p-skeleton width="fill-content" height="62vh" borderRadius="10px" styleClass="p-mb-2"></p-skeleton></div>
+            </div>
+          </div>
+      </div>
+
+
       <div class="col-12">
           <div class="flex flex-column">
-            <div class="mr-7">
-              <p-button label="Cluster" styleClass="p-button-lg p-button-warning" (click)="clustering()"></p-button>
+
+            <div *ngIf="orders.length > 0" class="flex align-items-center justify-content-center mb-3">
+              <p-button label="Clustering" styleClass="p-button p-button-success" (click)="clustering()"></p-button>
             </div>
+
+            <div *ngIf="isClustering && (allCapacities >= allQuantities) && (allCapacities!==0 && allQuantities!==0)" class="flex align-items-center justify-content-center mb-3">
+              <p-button class="mr-3" label="TABOO" (click)="startRouting()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
+              <p-button label="TABOO2" (click)="startRoutingCrossMove()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
+            </div>
+
             <div *ngIf="(allCapacities >= allQuantities) && (allCapacities!==0 && allQuantities!==0)" class="flex align-items-center justify-content-center mb-3">
-              <p-button label="TABOO RESEARCH" (click)="startRouting()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button-lg"></p-button>
+              <p-button label="GREEDY" (click)="startRoutingGreedy()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
             </div>
-            <div *ngIf="(allCapacities >= allQuantities) && (allCapacities!==0 && allQuantities!==0)" class="flex align-items-center justify-content-center mb-3">
-              <p-button label="TABOO CROSS MOVE" (click)="startRoutingCrossMove()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button-lg"></p-button>
-            </div>
-            <div *ngIf="(allCapacities >= allQuantities) && (allCapacities!==0 && allQuantities!==0)" class="flex align-items-center justify-content-center mb-3">
-              <p-button label="GREEDY ALGORITHM" (click)="startRoutingGreedy()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button-lg"></p-button>
-            </div>
+
+
             <div *ngIf="isOptimizing" class="flex align-items-center justify-content-center">
               <p-progressSpinner></p-progressSpinner>
             </div>

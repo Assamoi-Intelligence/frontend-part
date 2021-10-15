@@ -9,7 +9,7 @@
         </ng-template>
 
         <ng-template pTemplate="right">
-            <button pButton pRipple label="Generate Orders" icon="pi pi-replay" class="p-button-info mr-2" (click)="displayGeneratorOrderDialog = true"></button>
+            <!-- <button pButton pRipple label="Generate Orders" icon="pi pi-replay" class="p-button-info mr-2" (click)="displayGeneratorOrderDialog = true"></button> -->
             <p-fileUpload
                     mode="basic"
                     accept=".xlsx, .xls, .csv"
@@ -28,7 +28,7 @@
         </ng-template>
         </p-toolbar>
 
-        <p-table #dt [value]="orders" [rows]="10" [paginator]="true" [globalFilterFields]="['clientnumber','timewindowstart','productquantity']" [(selection)]="selectedOrders" [rowHover]="true" dataKey="id"
+        <p-table *ngIf="!isLoading" #dt [value]="orders" [rows]="10" [paginator]="true" [globalFilterFields]="['clientnumber','timewindowstart','productquantity']" [(selection)]="selectedOrders" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
@@ -74,10 +74,14 @@
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                In total there are {{orders ? orders.length : 0 }}  products.
+                In total there are {{orders ? orders.length : 0 }}  orders.
             </div>
         </ng-template>
         </p-table>
+
+    </div>
+    <div *ngIf="isLoading" class="flex justify-content-center mt-10">
+      <p-skeleton width="95vw" height="90vh" borderRadius="10px" styleClass="p-mb-2"></p-skeleton>
     </div>
 </main>
 

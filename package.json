@@ -23,6 +23,7 @@
     "@angular/router": "~12.0.5",
     "@googlemaps/google-maps-services-js": "^3.2.2",
     "@googlemaps/js-api-loader": "^1.12.2",
+    "chart.js": "^3.5.1",
     "density-clustering": "^1.3.0",
     "firebase": "^9.1.2",
     "primeflex": "^3.0.1",

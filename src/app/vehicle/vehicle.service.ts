@@ -3,38 +3,38 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { Vehicle } from '../models/vehicle';
 import { retry, catchError } from 'rxjs/operators';
+import { baseUrlVehicle } from '../url';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleService {
 
-  baseUrl = 'https://fleet-management-backend.herokuapp.com/vehicles';
 
   constructor(private httpClient: HttpClient) { }
 
   getAllVehicles(): Observable<Vehicle[]> {
-    return this.httpClient.get<Vehicle[]>(this.baseUrl).pipe(retry(3), catchError(this.handleError));
+    return this.httpClient.get<Vehicle[]>(baseUrlVehicle).pipe(retry(3), catchError(this.handleError));
   }
 
   exportVehicles() {
-    return this.httpClient.get(`${this.baseUrl}/download`, {responseType: 'blob'}).pipe(catchError(this.handleError));
+    return this.httpClient.get(`${baseUrlVehicle}/download`, {responseType: 'blob'}).pipe(catchError(this.handleError));
   }
 
   addNewVehicle(data: Vehicle): Observable<Vehicle> {
-    return this.httpClient.post<Vehicle>(this.baseUrl, data).pipe(catchError(this.handleError));;
+    return this.httpClient.post<Vehicle>(baseUrlVehicle, data).pipe(catchError(this.handleError));;
   }
 
   updateVehicle(data: Vehicle, id: any): Observable<Vehicle> {
-    return this.httpClient.put<Vehicle>(`${this.baseUrl}/${id}` , data).pipe(catchError(this.handleError));;
+    return this.httpClient.put<Vehicle>(`${baseUrlVehicle}/${id}` , data).pipe(catchError(this.handleError));;
   }
 
   deleteVehicleById(id: number): Observable<any> {
-    return this.httpClient.delete<any>(`${this.baseUrl}/${id}`).pipe(catchError(this.handleError));
+    return this.httpClient.delete<any>(`${baseUrlVehicle}/${id}`).pipe(catchError(this.handleError));
   }
 
   deletedVehiculesSelected(ids: number[]): Observable<any> {
-    return this.httpClient.delete<any>(`${this.baseUrl}/many/${ids}`).pipe(catchError(this.handleError));
+    return this.httpClient.delete<any>(`${baseUrlVehicle}/many/${ids}`).pipe(catchError(this.handleError));
   }
 
   handleError(error: HttpErrorResponse) {

@@ -26,7 +26,7 @@
         </ng-template>
       </p-toolbar>
 
-      <p-table #dt [value]="vehicles" [rows]="10" [paginator]="true" [globalFilterFields]="['matriculevehicule','brand','capacity','status']" [(selection)]="selectedVehicles" [rowHover]="true" dataKey="id"
+      <p-table *ngIf="!isLoading" #dt [value]="vehicles" [rows]="10" [paginator]="true" [globalFilterFields]="['matriculevehicule','brand','capacity','status']" [(selection)]="selectedVehicles" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
@@ -72,6 +72,9 @@
             </div>
         </ng-template>
       </p-table>
+    </div>
+    <div *ngIf="isLoading" class="flex justify-content-center mt-10">
+      <p-skeleton width="95vw" height="90vh" borderRadius="10px" styleClass="p-mb-2"></p-skeleton>
     </div>
 </main>
 

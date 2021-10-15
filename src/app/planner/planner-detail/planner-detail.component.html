@@ -6,22 +6,28 @@
     </div>
 
     <div class="col-12 lg:col-4 md:col-4 sm:col-12">
-        <p-card>
+        <p-card styleClass="mb-3">
+          {{distanceRoute}} km
+        </p-card>
+        <p-card *ngIf="isLoaded">
           <h5>Opposite Content</h5>
-          <p-timeline [value]="[
-          {status: 'Ordered', date: '15/10/2020 10:30', color: '#9C27B0', image: 'game-controller.jpg'},
-          {status: 'Processing', date: '15/10/2020 14:00', color: '#673AB7'},
-          {status: 'Shipped', date: '15/10/2020 16:15', color: '#FF9800'},
-          {status: 'Delivered', date: '16/10/2020 10:00', color: '#607D8B'}
-      ]">
+          <p-timeline [value]="value">
               <ng-template pTemplate="content" let-event>
-                  <small class="p-text-secondary">{{event.date}}</small>
+                  <small class="p-text-secondary">{{ 'From ' + event.label.from + ' to ' + event.label.to}}</small>
               </ng-template>
               <ng-template pTemplate="opposite" let-event>
-                  {{event.status}}
+                  <div>
+                      <div>
+                        {{event.timewindow.timestart | date: 'shortTime'}}-{{event.timewindow.timeend  | date: 'shortTime'}}
+                      </div>
+                      <div style="color: green;">
+                        {{ event.timestartService | date: 'shortTime' }}
+                      </div>
+                  </div>
               </ng-template>
           </p-timeline>
         </p-card>
+        <p-skeleton *ngIf="!isLoaded" width="fill-content" height="550px"></p-skeleton>
     </div>
 
   </div>

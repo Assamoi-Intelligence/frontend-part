@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Vehicle } from 'src/app/models/vehicle';
+import { urlUploadVehicle } from 'src/app/url';
 import { AddEditVehicleComponent } from '../add-edit-vehicle/add-edit-vehicle.component';
 import { VehicleService } from '../vehicle.service';
 
@@ -22,7 +23,9 @@ export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[] = [];
   selectedVehicles: Vehicle[] = [];
 
-  urlUpload = 'https://fleet-management-backend.herokuapp.com/vehicles/upload';
+  isLoading = true;
+
+  urlUpload = urlUploadVehicle;
 
   img: string = 'https://firebasestorage.googleapis.com/v0/b/memoire-master-323219.appspot.com/o/toyota.jpg?alt=media&token=c90d4b38-8700-40a7-ba3c-de948a8022f6';
 
@@ -40,6 +43,7 @@ export class VehicleListComponent implements OnInit {
   getAllVehicles() {
     this.vehicleService.getAllVehicles().subscribe((data: Vehicle[]) => {
       this.vehicles = data;
+      this.isLoading = false;
     }, (error: any) => {
       console.log(error);
       this.messageService.add({severity:'error', summary: 'Error', detail: `UNABLE TO GET VEHICLES ${error}`, life: 11000});

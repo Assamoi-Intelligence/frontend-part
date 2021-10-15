@@ -15,6 +15,7 @@ export class AddEditOrderComponent implements OnInit {
   orderForm!: FormGroup;
 
   options: any;
+  isLoading = false;
 
   depot = {
     lat: 5.36964,
@@ -31,6 +32,7 @@ export class AddEditOrderComponent implements OnInit {
   overlays: any[] = [];
 
   ngOnInit(): void {
+    //this.config.height = '30%';
     this.initMap();
     this.initForm();
     if(!this.config.data.isAdd) {
@@ -83,9 +85,12 @@ export class AddEditOrderComponent implements OnInit {
   }
 
   addNewOrder() {
+    this.isLoading = true;
+    this.config.height = '10%';
     if(this.config.data.isAdd) {
       const data = {...this.orderForm.value};
       this.orderService.addNewOrder(data).subscribe(data => {
+        this.isLoading = false;
         this.ref.close(true);
       }, err => {
         this.ref.close(err)

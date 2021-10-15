@@ -23,6 +23,8 @@ import {ChipsModule} from 'primeng/chips';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {CarouselModule} from 'primeng/carousel';
 import {TimelineModule} from 'primeng/timeline';
+import {SkeletonModule} from 'primeng/skeleton';
+import {ChartModule} from 'primeng/chart';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import {TimelineModule} from 'primeng/timeline';
     ChipsModule,
     ProgressSpinnerModule,
     CarouselModule,
-    TimelineModule
+    TimelineModule,
+    SkeletonModule,
+    ChartModule
   ]
 })
 export class AngularprimeModule { }
