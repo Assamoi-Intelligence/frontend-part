@@ -156,11 +156,10 @@ export class PlannerDetailComponent implements OnInit {
         let timestart = orders.find(el => el.id === route[index])?.timewindowstart as number;
         let timeend = orders.find(el => el.id === route[index])?.timewindowend;
         this.currentTime += (result.rows[0].elements[0].duration.value * 1000) as number;
-
         if(this.currentTime < timestart) {
             this.currentTime = timestart
         }
-
+        console.log(new Date(this.currentTime), this.currentTime);
         let from = 0;
         let to = 0;
         if(index !==0) {
