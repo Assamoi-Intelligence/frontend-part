@@ -19,7 +19,7 @@ export class PlannerDetailComponent implements OnInit {
   };
 
   value = [] as any;
-  currentTime:any = 0;
+  currentTime: number = 0;
 
   timeStartDepot = 0 ;
   isLoaded = false;
@@ -33,6 +33,7 @@ export class PlannerDetailComponent implements OnInit {
   ngOnInit(): void {
     this.initMap();
     this.loadOrderForMap(this.config.data.orders);
+    //this.computeTimeOfDepartFromDepot();
     this.computeTimeOfDelivery();
   }
 
@@ -152,12 +153,14 @@ export class PlannerDetailComponent implements OnInit {
     };
     return distanceMatrixService.getDistanceMatrix(request, (result: any, status: any) => {
       if(status === 'OK') {
-        let timestart = orders.find(el => el.id === route[index])?.timewindowstart;
+        let timestart = orders.find(el => el.id === route[index])?.timewindowstart as number;
         let timeend = orders.find(el => el.id === route[index])?.timewindowend;
-        this.currentTime = this.timeStartDepot + (result.rows[0].elements[0].duration.value * 1000) + this.currentTime;
-        if(typeof(timestart) !== 'undefined' && this.currentTime < timestart) {
-          this.currentTime = timestart;
+        this.currentTime += (result.rows[0].elements[0].duration.value * 1000) as number;
+
+        if(this.currentTime < timestart) {
+            this.currentTime = timestart
         }
+
         let from = 0;
         let to = 0;
         if(index !==0) {
@@ -185,29 +188,30 @@ export class PlannerDetailComponent implements OnInit {
     });
   }
 
-  computeTimeOfDepartFromDepot() {
+  // async computeTimeOfDepartFromDepot() {
 
-      let route = this.config.data.optimizedRoute;
-      let orders = this.config.data.orders as Order[];
-      let distanceMatrixService = new google.maps.DistanceMatrixService();
-      let start = {lat: this.depot.lat, lng: this.depot.lng};
-      let end ={lat: orders.find(el => el.id == route[0])?.locationlatitude, lng: orders.find(el => el.id == route[0])?.locationlongitude}
-      let request = {
-        origins: [start],
-        destinations: [end],
-        travelMode: 'DRIVING'
-      }
-      distanceMatrixService.getDistanceMatrix(request, (result: any, status: any) => {
-          if (status === 'OK') {
-            console.log(result.rows[0].elements[0].duration.value);
-            const timeFromDepotToFirstCustomer = result.rows[0].elements[0].duration.value;
-            const timestartwindowFirstCustomer = orders.find(el => el.id === route[0])?.timewindowstart;
-            const timeStartDepot = (timestartwindowFirstCustomer ? timestartwindowFirstCustomer : null as any) - (timeFromDepotToFirstCustomer * 1000);
-            this.timeStartDepot = timeStartDepot;
-          } else {
-            console.log('other problems');
-          }
-      });
-  }
+  //     let route = this.config.data.optimizedRoute;
+  //     let orders = this.config.data.orders as Order[];
+  //     let distanceMatrixService = new google.maps.DistanceMatrixService();
+  //     let start = {lat: this.depot.lat, lng: this.depot.lng};
+  //     let end ={lat: orders.find(el => el.id == route[0])?.locationlatitude, lng: orders.find(el => el.id == route[0])?.locationlongitude}
+  //     let request = {
+  //       origins: [start],
+  //       destinations: [end],
+  //       travelMode: 'DRIVING'
+  //     }
+  //     await distanceMatrixService.getDistanceMatrix(request, (result: any, status: any) => {
+  //         if (status === 'OK') {
+  //           console.log(result.rows[0].elements[0].duration.value);
+  //           const timeFromDepotToFirstCustomer = result.rows[0].elements[0].duration.value;
+  //           const timestartwindowFirstCustomer = orders.find(el => el.id === route[0])?.timewindowstart;
+  //           const timeStartDepot = (timestartwindowFirstCustomer ? timestartwindowFirstCustomer : null as any) - (timeFromDepotToFirstCustomer * 1000);
+  //           this.timeStartDepot = timeStartDepot;
+  //         } else {
+  //           console.log('other problems');
+  //         }
+  //     });
+
+  // }
 
 }
