@@ -17,7 +17,7 @@
               </ng-template>
               <ng-template pTemplate="opposite" let-event>
                   <div>
-                      <div>
+                      <div *ngIf="event.label.to !== 0">
                         {{event.timewindow.timestart | date: 'shortTime'}}-{{event.timewindow.timeend  | date: 'shortTime'}}
                       </div>
                       <div style="color: green;">
