@@ -3,7 +3,17 @@
     <p-skeleton width="98vw" height="90vh" borderRadius="10px"></p-skeleton>
   </div>
   <div>
-
+    <p-tabView>
+      <p-tabPanel header="RESULT">
+        RESULTS
+      </p-tabPanel>
+      <p-tabPanel header="TABU SEARCH">
+          <app-tabu-search></app-tabu-search>
+      </p-tabPanel>
+      <p-tabPanel header="TABU SEARCH CROSS MOVE">
+          <app-tabu-search-cross-move></app-tabu-search-cross-move>
+      </p-tabPanel>
+    </p-tabView>
   </div>
 </main>
 
