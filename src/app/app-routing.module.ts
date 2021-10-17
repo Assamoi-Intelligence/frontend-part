@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./planner/planner-routing.module').then(mod => mod.PlannerRoutingModule)
   },
   {
+    path: 'resultats',
+    loadChildren: () => import('./result/result-routing.module').then(mod => mod.ResultRoutingModule)
+  },
+  {
     path: '**',
     component: NotfoundComponent
   }

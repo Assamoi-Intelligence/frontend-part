@@ -13,6 +13,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 
 import {provideFirebaseApp, initializeApp} from '@angular/fire/app';
 import { environment } from 'src/environments/environment.prod';
+import { ResultModule } from './result/result.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { environment } from 'src/environments/environment.prod';
     OrderModule,
     VehicleModule,
     PlannerModule,
+    ResultModule,
     AngularprimeModule,
     HttpClientModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig))

@@ -25,6 +25,7 @@ import {CarouselModule} from 'primeng/carousel';
 import {TimelineModule} from 'primeng/timeline';
 import {SkeletonModule} from 'primeng/skeleton';
 import {ChartModule} from 'primeng/chart';
+import {TabViewModule} from 'primeng/tabview';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import {ChartModule} from 'primeng/chart';
     CarouselModule,
     TimelineModule,
     SkeletonModule,
-    ChartModule
+    ChartModule,
+    TabViewModule
   ]
 })
 export class AngularprimeModule { }

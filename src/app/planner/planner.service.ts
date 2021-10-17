@@ -44,6 +44,11 @@ export class PlannerService {
   }
 
 
+  reset() {
+    return this.httpClient.put(baseUrlPlanner + '/reset', {}).pipe(catchError(this.handleError))
+  }
+
+
   handleError(error: HttpErrorResponse) {
     if(error.error instanceof ErrorEvent) {
       console.error('An error occured ', error.error.message);

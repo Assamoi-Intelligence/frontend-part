@@ -160,13 +160,19 @@ export class PlannerComponent implements OnInit, OnDestroy {
     this.isOptimizing = true;
     this.plannerService.startRoutingTaboo(data).subscribe((response) => {
       //console.log(response);
-      this.optimizedRoutes = response.slice();
-      let res = response.unshift([]);
-      this.ordersToVehicle = response.slice();
-      this.isOptimized = true;
-      this.isOptimizing = false;
-      //this.traceAllRoutes(this.ordersToVehicle);
-      this.messageService.add({severity:'success', summary: 'Successful', detail: 'ROUTING SUCCESS', life: 13000});
+      if(response === false) {
+        this.messageService.add({severity:'info', summary: 'remake clustering', detail: `Unable to serve client`, life: 15000})
+        this.isOptimized = false;
+        this.isOptimizing = false;
+      } else {
+        this.optimizedRoutes = response.slice();
+        let res = response.unshift([]);
+        this.ordersToVehicle = response.slice();
+        this.isOptimized = true;
+        this.isOptimizing = false;
+        //this.traceAllRoutes(this.ordersToVehicle);
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'ROUTING SUCCESS', life: 13000});
+      }
     }, err => {
       this.isOptimizing = false;
       this.messageService.add({severity:'error', summary: 'Error start routing', detail: `${err}`, life: 15000});
@@ -180,12 +186,18 @@ export class PlannerComponent implements OnInit, OnDestroy {
     }
     this.isOptimizing = true;
     this.plannerService.startRoutingTabooCrossMove(data).subscribe((response) => {
-      this.optimizedRoutes = response.slice();
-      let res = response.unshift([]);
-      this.ordersToVehicle = response.slice();
-      this.isOptimized = true;
-      this.isOptimizing = false;
-      this.messageService.add({severity:'success', summary: 'Successful', detail: 'ROUTING SUCCESS', life: 13000});
+      if(response === false) {
+        this.messageService.add({severity:'info', summary: 'remake clustering', detail: `Unable to serve client`, life: 15000})
+        this.isOptimized = false;
+        this.isOptimizing = false;
+      } else {
+        this.optimizedRoutes = response.slice();
+        let res = response.unshift([]);
+        this.ordersToVehicle = response.slice();
+        this.isOptimized = true;
+        this.isOptimizing = false;
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'ROUTING SUCCESS', life: 13000});
+      }
     }, err => {
       this.isOptimizing = false;
       this.messageService.add({severity:'error', summary: 'Error start routing', detail: `${err}`, life: 15000});
