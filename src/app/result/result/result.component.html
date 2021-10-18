@@ -1,11 +1,33 @@
 <main>
-  <div *ngIf="true">
+  <div *ngIf="false">
     <p-skeleton width="98vw" height="90vh" borderRadius="10px"></p-skeleton>
   </div>
   <div>
     <p-tabView>
-      <p-tabPanel header="RESULT">
-        RESULTS
+      <p-tabPanel header="RESULTS">
+
+        <div class="grid">
+          <p-card class="col-4 xs:col-12" *ngFor="let result of results">
+            <ng-template pTemplate="header">
+              <div class="flex justify-content-center text-3xl uppercase">
+                {{ result.name }}
+              </div>
+            </ng-template>
+            <div class="flex flex-column justify-content-center align-content-center">
+              <div class="text-5xl font-semibold text-pink-800">
+                <div class="flex justify-content-center">
+                  {{ result.executiontime }} s
+                </div>
+              </div>
+              <div class="text-5xl font-semibold text-green-800">
+                <div class="flex justify-content-center">
+                  {{ result.costsolution / 1000 }} Km
+                </div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+
       </p-tabPanel>
       <p-tabPanel header="TABU SEARCH">
           <app-tabu-search></app-tabu-search>

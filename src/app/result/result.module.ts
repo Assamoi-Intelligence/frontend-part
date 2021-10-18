@@ -6,6 +6,7 @@ import { ResultComponent } from './result/result.component';
 import { AngularprimeModule } from '../angularprime/angularprime.module';
 import { TabuSearchComponent } from './tabu-search/tabu-search.component';
 import { TabuSearchCrossMoveComponent } from './tabu-search-cross-move/tabu-search-cross-move.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { TabuSearchCrossMoveComponent } from './tabu-search-cross-move/tabu-sear
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     ResultRoutingModule,
     AngularprimeModule
   ]

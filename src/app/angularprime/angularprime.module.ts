@@ -26,6 +26,7 @@ import {TimelineModule} from 'primeng/timeline';
 import {SkeletonModule} from 'primeng/skeleton';
 import {ChartModule} from 'primeng/chart';
 import {TabViewModule} from 'primeng/tabview';
+import {DataViewModule} from 'primeng/dataview';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import {TabViewModule} from 'primeng/tabview';
     TimelineModule,
     SkeletonModule,
     ChartModule,
-    TabViewModule
+    TabViewModule,
+    DataViewModule
   ]
 })
 export class AngularprimeModule { }

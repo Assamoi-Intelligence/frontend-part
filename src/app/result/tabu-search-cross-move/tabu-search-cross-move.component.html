@@ -1,2 +1,10 @@
-<p>tabu-search-cross-move works!</p>
-TABU SEARCH CROSS MOVE
+<div *ngIf="details.length !== 0">
+  <p-chart type="line" [data]="data"></p-chart>
+  <div class="mt-3" class="flex justify-content-center">
+      <div *ngFor="let d of dataRoute; let i = index;" >
+        <div class="flex justify-content-center ml-4 mr-4">
+          <button (click)="change(d)" pButton pRipple type="button" label="{{'Route ' + (i + 1)}}" class="p-button-outlined"></button>
+        </div>
+      </div>
+  </div>
+</div>
