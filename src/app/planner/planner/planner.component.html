@@ -71,17 +71,20 @@
             </div>
 
             <div *ngIf="isClustering && (allCapacities >= allQuantities) && (allCapacities!==0 && allQuantities!==0)" class="flex align-items-center justify-content-center mb-3">
-              <p-button class="mr-3" label="TABOO" (click)="startRouting()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
-              <p-button label="TABOO2" (click)="startRoutingCrossMove()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
+              <p-button class="mr-3" label="TABU" (click)="startRouting()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
+              <p-button label="TABU 2" (click)="startRoutingCrossMove()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
             </div>
 
             <div *ngIf="(allCapacities >= allQuantities) && (allCapacities!==0 && allQuantities!==0)" class="flex align-items-center justify-content-center mb-3">
               <p-button label="GREEDY" (click)="startRoutingGreedy()" *ngIf="(allQuantities <= allCapacities) && !isOptimizing" icon="pi pi-check" styleClass="p-button p-button-primary"></p-button>
             </div>
 
-
             <div *ngIf="isOptimizing" class="flex align-items-center justify-content-center">
               <p-progressSpinner></p-progressSpinner>
+            </div>
+
+            <div class="flex align-items-center justify-content-center mb-3 mt-8">
+              <p-button label="RESET" (click)="reset()"  icon="pi pi-power-off" styleClass="p-button p-button-danger"></p-button>
             </div>
 
           </div>

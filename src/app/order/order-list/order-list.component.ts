@@ -72,8 +72,10 @@ export class OrderListComponent implements OnInit {
   }
 
   editOrder(order: Order) {
-    order.timewindowstart = new Date(order.timewindowstart);
-    order.timewindowend = new Date(order.timewindowend);
+    if(typeof order.timewindowstart === 'string') order.timewindowstart = new Date(parseInt(order.timewindowstart));
+    if(typeof order.timewindowend === 'string') order.timewindowend = new Date(parseInt(order.timewindowend));
+    //order.timewindowstart = new Date(order.timewindowstart);
+    //order.timewindowend = new Date(order.timewindowend);
     this.ref = this.dialogService.open(AddEditOrderComponent, {
       header: 'Modifier la commande',
       modal: true,

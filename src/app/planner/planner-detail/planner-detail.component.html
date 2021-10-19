@@ -10,7 +10,9 @@
           {{distanceRoute}} km
         </p-card>
         <p-card *ngIf="isLoaded">
-          <h5>Opposite Content</h5>
+          <div class="flex justify-content-center">
+            <h5>ARRIVAL TIME</h5>
+          </div>
           <p-timeline [value]="value">
               <ng-template pTemplate="content" let-event>
                   <small class="p-text-secondary">{{ 'From ' + event.label.from + ' to ' + event.label.to}}</small>

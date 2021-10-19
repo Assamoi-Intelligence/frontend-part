@@ -25,6 +25,7 @@ export class ResultService {
     return this.http.get<Detail[]>(baseUrlAlgorithm + '/tabu-search/cross-move').pipe(retry(1), catchError(this.handleError));
   }
 
+
   handleError(error: HttpErrorResponse) {
     if(error.error instanceof ErrorEvent) {
       console.error('An error occured ', error.error.message);

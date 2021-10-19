@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -37,6 +38,7 @@ export class AddEditOrderComponent implements OnInit {
     this.initForm();
     if(!this.config.data.isAdd) {
       this.setForm(this.config.data.order);
+      //console.log(this.config.data.order)
     }
   }
 
