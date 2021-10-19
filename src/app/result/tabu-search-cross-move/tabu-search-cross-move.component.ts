@@ -11,7 +11,7 @@ import { ResultService } from '../result.service';
 })
 export class TabuSearchCrossMoveComponent implements OnInit {
 
-  labels = Array.from({length: 100}, (_, i) => i + 1);
+  labels = Array.from({length: 200}, (_, i) => i + 1);
   data = {} as any;
   details: Detail[] = [];
   routeLength: number = 0;

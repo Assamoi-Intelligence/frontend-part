@@ -16,7 +16,7 @@
             <div class="flex flex-column justify-content-center align-content-center">
               <div class="text-5xl font-semibold text-pink-800">
                 <div class="flex justify-content-center">
-                  {{ result.executiontime }} s
+                  {{ result.executiontime | number: '1.10-10' }} s
                 </div>
               </div>
               <div class="text-5xl font-semibold text-green-800">
