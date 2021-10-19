@@ -341,7 +341,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
     this.plannerService.reset().subscribe(data => {
       this.ordersToVehicle= [];
       this.optimizedRoutes= [];
-      this.isOptimizing = true;
+      //this.isOptimizing = true;
       this.isOptimized = false;
       this.messageService.add({severity:'success', summary: 'Successful', detail: 'RESET SUCCESS', life: 3000});
     }, err => {

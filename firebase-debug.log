@@ -1,0 +1,13 @@
+[debug] [2021-10-19T07:48:44.146Z] ----------------------------------------------------------------------
+[debug] [2021-10-19T07:48:44.150Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\cbanz\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2021-10-19T07:48:44.151Z] CLI Version:   9.6.0
+[debug] [2021-10-19T07:48:44.151Z] Platform:      win32
+[debug] [2021-10-19T07:48:44.151Z] Node Version:  v14.17.0
+[debug] [2021-10-19T07:48:44.159Z] Time:          Tue Oct 19 2021 07:48:44 GMT+0000 (heure moyenne de Greenwich)
+[debug] [2021-10-19T07:48:44.160Z] ----------------------------------------------------------------------
+[debug] [2021-10-19T07:48:44.160Z] 
+[debug] [2021-10-19T07:48:44.175Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-10-19T07:48:44.176Z] > authorizing via signed-in user
+[debug] [2021-10-19T07:48:44.176Z] [iam] checking project memoire-master-323219 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-10-19T07:48:44.179Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/memoire-master-323219:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
