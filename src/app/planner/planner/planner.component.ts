@@ -8,6 +8,9 @@ import { KMEANS } from 'density-clustering';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PlannerDetailComponent } from '../planner-detail/planner-detail.component';
 
+const UL = require('unsupervised-learning');
+
+
 @Component({
   selector: 'app-planner',
   templateUrl: './planner.component.html',
@@ -96,27 +99,20 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
   clustering() {
     this.ordersToVehicle = [];
-    for (let i = 0; i < this.vehicles.length + 1; i++) {
-      this.ordersToVehicle.push([])
-    }
+    // for (let i = 0; i < this.vehicles.length + 1; i++) {
+    //   this.ordersToVehicle.push([])
+    // }
     if(this.orders.length > 0) {
       const points = this.orders.map(el => [el.locationlatitude, el.locationlongitude]);
-      const kmeans = new KMEANS();
-      let clusters = kmeans.run(points, 4);
-      let orders = clusters;
-      let k = 1;
-      for (let i = 0; i < orders.length; i++) {
-        for (let j = 0; j < orders[i].length; j++) {
-          orders[i][j] = orders[i][j] + 1;
-          if(this.ordersToVehicle[k].length < (this.orders.length / this.vehicles.length)) {
-            this.ordersToVehicle[k].push(orders[i][j]);
-          } else {
-            k = k + 1;
-            this.ordersToVehicle[k].push(orders[i][j]);
-          }
-        }
-      }
-
+      let a = new UL.KLearning(4,"first", "k-means");
+      a.initClusters(points);
+      a.train(points, 6000);
+      const data = a.clusters;
+      data.forEach((e:any) => {
+        let b = e.children.map((el:any[]) => this.orders.find(element => element.locationlatitude === el[0] && element.locationlongitude === el[1])?.id)
+        this.ordersToVehicle.push(b);
+      });
+      this.ordersToVehicle.unshift([]);
       this.plannerService.dispatchRouteToVehicle(this.ordersToVehicle).subscribe(data => {
         this.isClustering = true;
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Dispatch Routing Success', life: 3000});
